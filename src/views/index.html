@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+      <title>{{title}}</title>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui"/>
+      <link rel="preload" href="{{upDir}}/sw.js" as="script">
+      <link rel="preload" href="{{upDir}}/js/app.js" as="script">
+      <!-- Icons Start -->
+      {{iconLinks}}
+      <!-- Icons End -->
+      <style type="text/css">{{css}}</style>
+</head>
+<body>
+    <header>
+        <img src="{{upDir}}/images/logo.png" alt="Mithril" class="icon-logo">
+        <nav>
+            <a href="{{upDir}}/top" data-button="">Top</a>
+            <a href="{{upDir}}/new" data-button="">New</a>
+            <a href="{{upDir}}/show" data-button="">Show</a>
+            <a href="{{upDir}}/ask" data-button="">Ask</a>
+            <a href="{{upDir}}/job" data-button="">Jobs</a>
+        </nav>
+        <h1>Built with Mithril</h1>
+    </header>
+    <article>
+    </article>
+    <footer></footer>
+    <script type="text/javascript" src="{{upDir}}/js/app.js"></script>
+</body>
+</html>
