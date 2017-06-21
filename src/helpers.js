@@ -2,8 +2,14 @@ import compress from 'micro-compress';
 import fs from 'fs';
 
 import config from './config.js';
-
+/**
+ * Function to catch errors
+ * @method errorHandler
+ * @param  {Function}   fn  The handler function
+ * @return {Promise}
+ */
 let errorHandler = fn => (req, res) => {
+    // Uses promise resolve to convert any static function to a promise
     return Promise.resolve(fn(req, res)).catch(err => {
         if (err.code !== undefined && err.code === "ENOENT") {
             return micro.send(res, 404);
@@ -13,11 +19,23 @@ let errorHandler = fn => (req, res) => {
     });
 };
 
-let route = fn => errorHandler(compress((req, res) => fn(req, res)));
+/**
+ * Main route handler, it attach the compress and errorHandler to all routes
+ * @method routeHandler
+ * @param  {Function} fn    The handler function
+ * @return {Function}       The main handler function
+ */
+let routeHandler = fn => errorHandler(compress((req, res) => fn(req, res)));
 
-let serveFile = (res, fileName) => {
-    let filePath = fileName;
-    let extension = fileName.split('/').pop().split('.').pop();
+/**
+ * Helper functio to serve a file from the file system
+ * @method serveFile
+ * @param  {Object}  res        Response object
+ * @param  {String}  filePath   Path of the file to serve
+ * @return {Promise}
+ */
+let serveFile = (res, filePath) => {
+    let extension = filePath.split('/').pop().split('.').pop();
     return new Promise((resolve, reject) => {
         return fs.stat(filePath, (err, stat) => {
             if (err) {
@@ -38,16 +56,24 @@ let serveFile = (res, fileName) => {
     });
 };
 
-let serveDir = path => route((req, res) => serveFile(res, path + (Array.isArray(req.params._) ? req.params._.pop() : req.params._)));
+/**
+ * Helper function to serve a full directory form the file system
+ * @method serveDir
+ * @param  {String} path    The directory path
+ * @return {Function}       The main handler
+ */
+let serveDir = path => routeHandler((req, res) => serveFile(res, path + (Array.isArray(req.params._) ? req.params._.pop() : req.params._)));
 
 /**
- * https://gist.github.com/Masquerade-Circus/d441541cc604624552a9
- * Small and super fast logic-less template engine in 132 bytes.
+ * Helper function to load a view and replace a list of vars in it as a simple template engine
+ * @method loadView
+ * @param  {String} filePath        The file path
+ * @param  {Object} [data={}]       Object of key value pairs to replace on the contents
+ * @return {Promise}                Promise that resolves with the file contents
  */
-
-let file = (file, data = {}) => {
+let loadView = (filePath, data = {}) => {
     return new Promise((resolve, reject) => {
-        fs.readFile(file, 'utf8', (err, contents) => {
+        fs.readFile(filePath, 'utf8', (err, contents) => {
             if (err) {
                 return reject(err);
             }
@@ -60,6 +86,13 @@ let file = (file, data = {}) => {
     });
 };
 
+/**
+ * Helper function to render an html string
+ * @method render
+ * @param  {Object} res     Response object
+ * @param  {String} html    Html string
+ * @return {Void}
+ */
 let render = (res, html) => {
     res.writeHead(200, {
         'Content-Type': config.mimeTypes.html,
@@ -69,11 +102,14 @@ let render = (res, html) => {
     res.end(html);
 };
 
+/**
+ * Expor default object with all the helpers
+ */
 export default {
     serveFile,
     errorHandler,
     serveDir,
-    route,
-    file,
+    routeHandler,
+    loadView,
     render
 };

@@ -1,5 +1,4 @@
-import ListItem from './list_item_component';
-import Credits from './credits_component';
+import Component from '../components';
 
 let ListModule = {
     elements: [],
@@ -30,13 +29,13 @@ let ListModule = {
                     m('section', [
                         m('ul[data-list="three-line"]', this.elements.map(item => {
                             item.key = item.id;
-                            return m(ListItem, item);
+                            return m(Component.listItem, item);
                         }))
                     ])
                 ])
             ]),
             m('footer', [
-                m(Credits),
+                m(Component.credits),
                 this.pagination.show ?
                     m('nav', [
                         this.pagination.prev > 0 ?

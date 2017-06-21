@@ -16,9 +16,22 @@ let filesToCahe = [
 ];
 
 let cacheName = 'hn-mithril';
+let cacheVersion = "v1::";
+
+/**
+ * Log function, you can set to console.log for debugging process
+ * @method Log
+ */
+let Log = () => {};
+
+// Hackernews options
+let hnOptions = { log: Log, watch: true};
 
 export default {
     sections,
+    filesToCahe,
     cacheName,
-    filesToCahe
+    cacheVersion,
+    Log,
+    hnOptions
 };

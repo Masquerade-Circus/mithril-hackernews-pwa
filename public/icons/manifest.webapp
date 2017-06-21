@@ -1,7 +1,7 @@
 {
   "version": "1.0",
   "name": "Mithril Hackernews",
-  "description": "Hackernews clone made with Micro.js + Mithril.js + Pure Material",
+  "description": "Hackernews clone built with Micro.js + Mithril.js + Pure Material",
   "icons": {
     "60": "/icons/firefox_app_60x60.png",
     "128": "/icons/firefox_app_128x128.png",

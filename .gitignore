@@ -28,12 +28,4 @@ node_modules
 .lock-wscript
 yarn.lock
 
-lib/
-data/
-docs/
 dist/
-
-# nyc coverage
-
-.nyc_output
-/uploads

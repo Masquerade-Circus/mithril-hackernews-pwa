@@ -1,9 +1,10 @@
 import Init from './init';
 import Helper from './helpers';
 
-import Module from './components';
+import Module from './modules';
 import config from './config';
 
+// Helper function to add list routes
 let routeFactory = item => {
     return {
         render() {
@@ -14,6 +15,7 @@ let routeFactory = item => {
     };
 };
 
+// Set the routes for users and comments
 let Routes = {
     '/user/:param': {
         render() {
@@ -31,11 +33,13 @@ let Routes = {
     }
 };
 
+// For each section add the main route and the route with params
 config.sections.map(item => {
     Routes[`/${item.section}`] = routeFactory(item);
     Routes[`/${item.section}/:param`] = routeFactory(item);
 });
 
+// When dom ready and service worker activated attach mithril to the dom
 Helper.Ready(Init(() => {
     let bodyElement = window.document.body || window.document.getElementsByTagName('body')[0];
     m.route(bodyElement, '/top', Routes);

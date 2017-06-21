@@ -1,11 +1,9 @@
-import Layout from './layout_module';
-import List from './list_module';
-import User from './user_module';
-import Comments from './comments_module';
+import comments from './comments_component';
+import credits from './credits_component';
+import listItem from './list_item_component';
 
 export default {
-    Layout,
-    List,
-    User,
-    Comments
+    comments,
+    credits,
+    listItem
 };

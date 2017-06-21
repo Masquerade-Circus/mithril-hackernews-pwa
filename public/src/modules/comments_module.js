@@ -1,5 +1,4 @@
-import CommentList from './comment_item_component';
-import Credits from './credits_component';
+import Component from '../components';
 
 let CommentsModule = {
     comments: {},
@@ -49,10 +48,10 @@ let CommentsModule = {
                                 ''
                         ])
                     ]),
-                    m('section', this.item.id !== undefined ? m(CommentList, this.item) : '')
+                    m('section', this.item.id !== undefined ? m(Component.comments, this.item) : '')
                 ])
             ]),
-            m('footer', m(Credits))
+            m('footer', m(Component.credits))
         ];
     }
 };

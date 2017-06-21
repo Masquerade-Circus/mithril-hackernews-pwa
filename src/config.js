@@ -1,15 +1,21 @@
+/**
+ * Sections to add to the router
+ * @type {Array}
+ */
 let sections = [
-    {title: 'Top', section: 'top', paginated: true},
-    {title: 'New', section: 'new', paginated: true},
-    {title: 'Show', section: 'show', paginated: true},
-    {title: 'Ask', section: 'ask', paginated: true},
-    {title: 'Jobs', section: 'job', paginated: true},
-    {title: 'User', section: 'user', paginated: false},
-    {title: 'Comments', section: 'comments', paginated: false}
+    {title: 'Top', section: 'top'},
+    {title: 'New', section: 'new'},
+    {title: 'Show', section: 'show'},
+    {title: 'Ask', section: 'ask'},
+    {title: 'Jobs', section: 'job'},
+    {title: 'User', section: 'user'},
+    {title: 'Comments', section: 'comments'}
 ];
 
-let viewsPath = './src/views/';
-
+/**
+ * Mime types to set to the served files
+ * @type {Object}
+ */
 let mimeTypes = {
     aac: "audio/aac",
     abw: "application/x-abiword",
@@ -75,6 +81,5 @@ let mimeTypes = {
 
 export default {
     sections,
-    viewsPath,
     mimeTypes
 };

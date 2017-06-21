@@ -1,4 +1,4 @@
-import Credits from './credits_component';
+import Component from '../components';
 
 let UserModule = {
     user: {},
@@ -31,7 +31,7 @@ let UserModule = {
                     ])
                 ])
             ]),
-            m('footer', m(Credits))
+            m('footer', m(Component.credits))
         ];
     }
 };
