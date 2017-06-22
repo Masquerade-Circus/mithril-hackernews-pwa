@@ -1,6 +1,7 @@
 // Include gulp
 let gulp = require('gulp'),
     plumber = require('gulp-plumber'),
+    nodemon = require('gulp-nodemon'),
     browserSync = require('browser-sync'),
     stylus = require('stylus'),
     gulpStylus = require('gulp-stylus'),
@@ -14,7 +15,6 @@ let gulp = require('gulp'),
     favicons = require('favicons'),
     config = require('./gulpconfig');
 
-
 // Assign gulpstylus to the most recent version
 gulpStylus.stylus = stylus;
 
@@ -27,6 +27,28 @@ gulp.task('connect', () => {
         injectChanges: true,
         codeSync: true
     });
+});
+
+gulp.task('nodemon', (done) => {
+    let called = false;
+    let stream = nodemon({
+        nodemon: require('nodemon'),
+        script: 'index.js',
+        watch: ['./src', './public/js', './public/css', './public/images']
+    });
+
+    stream.on('start', () => {
+        if (!called) {
+            done();
+        }
+        called = true;
+    });
+
+    stream.on('restart', () => setTimeout(() => browserSync.reload({stream: false}), 400));
+
+    stream.on('crash', () => stream.emit('restart', 10));
+
+    return stream;
 });
 
 gulp.task('stylus', () => {
@@ -99,54 +121,49 @@ gulp.task("build-webpack", () => {
         .pipe(browserSync.stream({match: '**/*.js'}));
 });
 
-gulp.task('build-icons', () => {
-    gulp.src(config.favicons.logo)
-        .pipe(plumber())
-        .pipe(gulpFn(() => {
-            return favicons(config.favicons.logo, config.favicons, (error, response) => {
-                if (error) {
-                    console.log(error.status);  // HTTP error code (e.g. `200`) or `null`
-                    console.log(error.name);    // Error name e.g. "API Error"
-                    console.log(error.message); // Error description e.g. "An unknown error has occurred"
-                    return;
+gulp.task('build-icons', (done) => {
+    favicons(config.favicons.logo, config.favicons, (error, response) => {
+        if (error) {
+            console.log(error.status);  // HTTP error code (e.g. `200`) or `null`
+            console.log(error.name);    // Error name e.g. "API Error"
+            console.log(error.message); // Error description e.g. "An unknown error has occurred"
+            return;
+        }
+        let errorHandler = error => error && console.log(error);
+
+        for (let i in response.images) {
+            fs.writeFile(config.favicons.iconsPath + response.images[i].name, response.images[i].contents, errorHandler);
+        }
+
+        for (let i in response.files) {
+            let name = response.files[i].name;
+            if (name === 'manifest.json') {
+                try {
+                    let jsonObj = JSON.parse(response.files[i].contents);
+                    jsonObj.display = config.favicons.display;
+                    jsonObj.theme_color = config.favicons.background;
+                    jsonObj.short_name = config.favicons.shortName;
+                    response.files[i].contents = JSON.stringify(jsonObj);
+                } catch (e) {
+                    console.log(e);
                 }
-                let errorHandler = error => error && console.log(error);
+            }
 
-                for (let i in response.images) {
-                    fs.writeFile(config.favicons.iconsPath + response.images[i].name, response.images[i].contents, errorHandler);
-                }
+            fs.writeFile(config.favicons.iconsPath + response.files[i].name, response.files[i].contents, errorHandler);
+        }
 
-                for (let i in response.files) {
-                    let name = response.files[i].name;
-                    if (name === 'manifest.json') {
-                        try {
-                            let jsonObj = JSON.parse(response.files[i].contents);
-                            jsonObj.display = config.favicons.display;
-                            jsonObj.theme_color = config.favicons.background;
-                            jsonObj.short_name = config.favicons.shortName;
-                            response.files[i].contents = JSON.stringify(jsonObj);
-                        } catch (e) {
-                            console.log(e);
-                        }
-                    }
+        let html = '';
+        for (let i in response.html) {
+            html += response.html[i] + '\n';
+        }
 
-                    fs.writeFile(config.favicons.iconsPath + response.files[i].name, response.files[i].contents, errorHandler);
-                }
+        fs.writeFile(config.favicons.linksViewPath + 'links.html', html, errorHandler);
 
-                let html = '';
-                for (let i in response.html) {
-                    html += response.html[i] + '\n';
-                }
-
-                fs.writeFile(config.favicons.linksViewPath + 'links.html', html, errorHandler);
-
-                console.log('Build icons done.');
-                return true;
-            });
-        }));
+        done();
+    });
 });
 
-gulp.task('watch', ['connect', 'stylus', 'webpack'], () => {
+gulp.task('dev', ['build-icons','stylus', 'webpack', 'connect', 'nodemon'], () => {
     gulp.watch(__dirname + '/public/css/**/*.styl', ['stylus']);
     gulp.watch(__dirname + '/public/src/**/*.js', ['webpack']);
 });

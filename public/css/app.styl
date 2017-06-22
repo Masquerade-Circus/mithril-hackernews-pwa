@@ -64,4 +64,16 @@ footer>h1
     font-size: 14rem;
 
 small
-    opacity: 1;   
+    opacity: 1;
+
+@media only screen and (max-width: 375px) {
+    nav>a, nav>a[data-button] {
+        padding: 12rem 10rem;
+        min-width: 0;
+    }
+}
+
+[data-list=three-line]>li>:first-child>[class*=icon], [data-list=two-line]>li>:first-child>[class*=icon]
+    display: block;
+    margin-right: 8rem;
+    flex: none;

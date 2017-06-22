@@ -5,15 +5,34 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "server": "nodemon -w ./src index.js",
-    "watch": "gulp watch",
-    "dist": "gulp build",
-    "icons": "node icons.js",
+    "dev": "gulp dev",
+    "build": "gulp build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Masquerade-Circus/mithril-hackernews-pwa.git"
+  },
+  "keywords": [
+      "pwa",
+      "hnpwa",
+      "hackernews",
+      "firebase",
+      "mithril",
+      "micro",
+      "pure material",
+      "spa"
+  ],
+  "author": {
+    "name": "Masquerade Circus",
+    "email": "christian@masquerade-circus.net",
+    "url": "http://masquerade-circus.net"
+  },
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/Masquerade-Circus/mithril-hackernews-pwa/issues"
+  },
+  "homepage": "https://github.com/Masquerade-Circus/mithril-hackernews-pwa#readme",
   "dependencies": {
     "babel-polyfill": "^6.23.0",
     "babel-preset-env": "^1.5.2",
@@ -35,6 +54,7 @@
     "fs": "^0.0.1-security",
     "gulp": "^3.9.1",
     "gulp-fn": "^0.0.0",
+    "gulp-nodemon": "^2.2.1",
     "gulp-plumber": "^1.1.0",
     "gulp-stylus": "^2.6.0",
     "mithril": "^1.1.1",

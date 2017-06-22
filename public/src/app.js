@@ -40,7 +40,7 @@ config.sections.map(item => {
 });
 
 // When dom ready and service worker activated attach mithril to the dom
-Helper.Ready(Init(() => {
+Init(() => {
     let bodyElement = window.document.body || window.document.getElementsByTagName('body')[0];
     m.route(bodyElement, '/top', Routes);
-}));
+});

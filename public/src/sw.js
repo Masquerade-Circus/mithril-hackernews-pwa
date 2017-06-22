@@ -1,6 +1,5 @@
-importScripts('https://www.gstatic.com/firebasejs/4.1.2/firebase-app.js');
-importScripts('https://www.gstatic.com/firebasejs/4.1.2/firebase-database.js');
-
+import firebase from 'firebase/app';
+import 'firebase/database';
 import Hackernews from 'firebase-hackernews/dist/firebase-hackernews.js';
 import config from './config';
 
@@ -58,16 +57,34 @@ let unableToResolve = () => {
     });
 };
 
+/**
+ * Exclude requests from cache
+ * @method excludedRequest
+ * @param  {Url}        url
+ * @return {Boolean}
+ */
+let excludedRequest = url => {
+    let excluded = false;
+
+    config.requestsToExclude.map(item => {
+        if (item.indexOf(url.pathname) !== -1) {
+            excluded = true;
+        }
+    });
+
+    return excluded;
+};
+
 // Fetch listener
 self.addEventListener("fetch", event => {
     Log('WORKER: fetch event in progress.', event.request.url);
 
+    let url = new URL(event.request.url);
+
     // We only handle Get requests all others let them pass
-    if (event.request.method !== 'GET') {
+    if (event.request.method !== 'GET' || excludedRequest(url)) {
         return;
     }
-
-    let url = new URL(event.request.url);
 
     // If the url starts with hackernews fetch from the hn webservice
     if (url.pathname.startsWith('/hackernews/')) {

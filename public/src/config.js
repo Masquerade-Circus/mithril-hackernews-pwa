@@ -7,12 +7,17 @@ let sections = [
 ];
 
 let filesToCahe = [
-    'js/app.js',
-    'images/logo.png',
-    'icons/manifest.json',
-    'icons/manifest.webapp',
-    'icons/yandex-browser-manifest.json',
-    'icons/favicon.ico'
+    'images/logo-48x48.png',
+    'images/icons/browserconfig.xml',
+    'images/icons/manifest.json',
+    'images/icons/manifest.webapp',
+    'images/icons/favicon.ico',
+    'images/icons/favicon-32x32.png',
+    'images/icons/favicon-16x16.png'
+];
+
+let requestsToExclude = [
+    '/sw.js'
 ];
 
 let cacheName = 'hn-mithril';
@@ -33,5 +38,6 @@ export default {
     cacheName,
     cacheVersion,
     Log,
-    hnOptions
+    hnOptions,
+    requestsToExclude
 };

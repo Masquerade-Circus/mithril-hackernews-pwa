@@ -69,19 +69,35 @@ let serveDir = path => routeHandler((req, res) => serveFile(res, path + (Array.i
  * @method loadView
  * @param  {String} filePath        The file path
  * @param  {Object} [data={}]       Object of key value pairs to replace on the contents
- * @return {Promise}                Promise that resolves with the file contents
+ * @return {Promise}                Promise that resolves with a template function file contents
  */
-let loadView = (filePath, data = {}) => {
+let loadView = (filePath, data) => {
     return new Promise((resolve, reject) => {
         fs.readFile(filePath, 'utf8', (err, contents) => {
             if (err) {
                 return reject(err);
             }
 
-            for (let i in data) {
-                contents = contents.replace(new RegExp("{{(" + i + ")}}", "g"), (data[i] || ''));
+            /**
+             * Simple template engine
+             * @method template
+             * @param  {Object} [data={}] Object of key value pairs to replace on the contents
+             * @return {String}           Contents parsed
+             */
+            let template = (data = {}) => {
+                for (let i in data) {
+                    contents = contents.replace(new RegExp("{{(" + i + ")}}", "g"), (data[i] || ''));
+                }
+                return contents;
+            };
+
+            // If data object is passed, return the contents parsed
+            if (data !== undefined && typeof data === 'object') {
+                return resolve(template(data));
             }
-            resolve(contents);
+
+            // If no data object, return the template function;
+            resolve(template);
         });
     });
 };

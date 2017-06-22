@@ -3,9 +3,9 @@
   "name": "Mithril Hackernews",
   "description": "Hackernews clone built with Micro.js + Mithril.js + Pure Material",
   "icons": {
-    "60": "/icons/firefox_app_60x60.png",
-    "128": "/icons/firefox_app_128x128.png",
-    "512": "/icons/firefox_app_512x512.png"
+    "60": "/images/icons/firefox_app_60x60.png",
+    "128": "/images/icons/firefox_app_128x128.png",
+    "512": "/images/icons/firefox_app_512x512.png"
   },
   "developer": {
     "name": "Christian César Robledo López (Masquerade Circus)",
