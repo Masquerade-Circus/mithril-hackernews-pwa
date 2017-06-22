@@ -6,6 +6,12 @@ import config from './config';
 
 let Log = config.Log;
 
+/**
+ * Helper function to send a message to the client
+ * @method sendMessage
+ * @param  {Any}    message
+ * @return {Promise}
+ */
 let sendMessage = message => {
     return self.clients.matchAll({
         type: 'window',
@@ -18,8 +24,7 @@ let sendMessage = message => {
     })
 };
 
-let hackernews = Hackernews
-    .init(firebase, config.hnOptions);
+let hackernews = Hackernews.init(firebase, config.hnOptions);
 
 // Response handler for hn
 let responseWithJSON = data => new Response(JSON.stringify(data), {
@@ -55,7 +60,7 @@ let unableToResolve = () => {
 
 // Fetch listener
 self.addEventListener("fetch", event => {
-    Log('WORKER: fetch event in progress.');
+    Log('WORKER: fetch event in progress.', event.request.url);
 
     // We only handle Get requests all others let them pass
     if (event.request.method !== 'GET') {
@@ -75,33 +80,28 @@ self.addEventListener("fetch", event => {
 
     event.respondWith(
         caches.match(event.request).then(cached => {
-            // We fetch from the network to always set a clean cache response
-            let networked = fetch(event.request)
-                .then(fetchedFromNetwork(event), unableToResolve)
-                .catch(unableToResolve);
-
             Log('WORKER: fetch event', cached ? '(cached)' : '(network)', event.request.url);
 
-            // Try to send first the cached response to improve a fast response,
-            // if no cache, send the network response
-            return cached || networked;
+            if (cached !== undefined) {
+                return cached;
+            }
+
+            return fetch(event.request)
+                .then(fetchedFromNetwork(event), unableToResolve)
+                .catch(unableToResolve);
         })
     );
 });
 
 self.addEventListener("install", event => {
-    Log('WORKER: install event in progress.');
     event.waitUntil(
         caches.open(config.cacheVersion + config.cacheName)
             .then(cache => cache.addAll(config.filesToCahe))
-            .then(() => sendMessage('WORKER: All files are cached and install completed'))
-            .then(() => Log('WORKER: All files are cached and install completed'))
             .catch(error => console.error('WORKER: Failed to cache', error))
     );
 });
 
 self.addEventListener("activate", event => {
-    Log('WORKER: activate event in progress.');
     event.waitUntil(
         caches.keys()
             .then(keys => Promise.all(
@@ -109,17 +109,12 @@ self.addEventListener("activate", event => {
                     .map(key => caches.delete(key)) // Return a promise that's fulfilled when each outdated cache is deleted.
             ))
             .then(() => self.clients.claim())
-            .then(() => self.skipWaiting())
-            .then(() => sendMessage('WORKER: activate completed.'))
-            .then(() => Log('WORKER: activate completed.'))
     );
 });
 
-// When we receive an init event, init hackernews and respond with ready
+// When we receive an init event respond with ready
 self.addEventListener('message', event => {
     if (event.data === 'init') {
-        hackernews.watch(config.hnOptions.watch)
-            .then(() => sendMessage('ready'))
-            .catch(err => Log('WORKER: Failed to initialize', err));
+        sendMessage('ready');
     }
 });

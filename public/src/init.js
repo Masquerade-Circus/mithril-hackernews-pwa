@@ -15,7 +15,8 @@ m.route.prefix('');
  */
 let Init = (fn = () => {}) => {
     if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.addEventListener('message', function (event) {
+        navigator.serviceWorker.addEventListener('message', event => {
+            Log(event.data);
             if (event.data === 'ready') {
                 fn();
             }
@@ -23,11 +24,7 @@ let Init = (fn = () => {}) => {
 
         navigator.serviceWorker.register('/sw.js', {scope: './'})
             .then(() => navigator.serviceWorker.ready)
-            .then(registration => {
-                Log('ServiceWorker registration successful with scope: ', registration.scope);
-                let serviceWorker = registration.active;
-                serviceWorker.postMessage('init');
-            })
+            .then(registration => registration.active.postMessage('init'))
             .catch(err => Log('ServiceWorker registration failed: ', err));
     }
 };
