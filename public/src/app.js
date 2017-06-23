@@ -39,8 +39,14 @@ config.sections.map(item => {
     Routes[`/${item.section}/:param`] = routeFactory(item);
 });
 
+// Add the default route
+Routes[`/`] = routeFactory(config.sections[0]);
+Helper.Ready(() => {
+    let bodyElement = window.document.body || window.document.getElementsByTagName('body')[0];
+    m.route(bodyElement, '/', Routes);
+});
+
 // When dom ready and service worker activated attach mithril to the dom
 Init(() => {
-    let bodyElement = window.document.body || window.document.getElementsByTagName('body')[0];
-    m.route(bodyElement, '/top', Routes);
+    console.log('Service worker init');
 });

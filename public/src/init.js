@@ -15,16 +15,15 @@ m.route.prefix('');
  */
 let Init = (fn = () => {}) => {
     if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.addEventListener('message', event => {
-            Log(event.data);
-            if (event.data === 'ready') {
-                fn();
-            }
-        });
-
         navigator.serviceWorker.register('/sw.js', {scope: './'})
             .then(() => navigator.serviceWorker.ready)
-            .then(registration => registration.active.postMessage('init'))
+            .then(registration => {
+                Log('ServiceWorker registrated and activated');
+                // registration.active.postMessage('init');
+                // setTimeout(() => {
+                //     fn()
+                // }, 10);
+            })
             .catch(err => Log('ServiceWorker registration failed: ', err));
     }
 };

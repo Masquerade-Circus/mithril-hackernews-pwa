@@ -78,9 +78,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 var sections = [{ title: 'Top', section: 'top', paginated: true }, { title: 'New', section: 'new', paginated: true }, { title: 'Show', section: 'show', paginated: true }, { title: 'Ask', section: 'ask', paginated: true }, { title: 'Jobs', section: 'job', paginated: true }];
 
-var filesToCahe = ['images/logo-48x48.png', 'images/icons/browserconfig.xml', 'images/icons/manifest.json', 'images/icons/manifest.webapp', 'images/icons/favicon.ico', 'images/icons/favicon-32x32.png', 'images/icons/favicon-16x16.png'];
-
-var requestsToExclude = ['/sw.js'];
+var urlsToCache = ['/', '/hackernews/top/1', '/images/logo-48x48.png', '/images/icons/browserconfig.xml', '/images/icons/manifest.json', '/images/icons/manifest.webapp', '/images/icons/favicon.ico', '/images/icons/favicon-32x32.png', '/images/icons/favicon-16x16.png'];
 
 var cacheName = 'hn-mithril';
 var cacheVersion = "v1::";
@@ -96,12 +94,11 @@ var hnOptions = { log: Log, watch: true };
 
 exports.default = {
     sections: sections,
-    filesToCahe: filesToCahe,
+    urlsToCache: urlsToCache,
     cacheName: cacheName,
     cacheVersion: cacheVersion,
     Log: Log,
-    hnOptions: hnOptions,
-    requestsToExclude: requestsToExclude
+    hnOptions: hnOptions
 };
 
 /***/ }),
@@ -708,13 +705,6 @@ var sendMessage = function sendMessage(message) {
 
 var hackernews = _firebaseHackernews2.default.init(_app2.default, _config2.default.hnOptions);
 
-// Response handler for hn
-var responseWithJSON = function responseWithJSON(data) {
-    return new Response(JSON.stringify(data), {
-        headers: { 'Content-Type': 'application/json' }
-    });
-};
-
 // Function to add the network response to the cache
 var fetchedFromNetwork = function fetchedFromNetwork(event) {
     return function (response) {
@@ -744,25 +734,6 @@ var unableToResolve = function unableToResolve() {
         })
     });
 };
-
-/**
- * Exclude requests from cache
- * @method excludedRequest
- * @param  {Url}        url
- * @return {Boolean}
- */
-var excludedRequest = function excludedRequest(url) {
-    var excluded = false;
-
-    _config2.default.requestsToExclude.map(function (item) {
-        if (item.indexOf(url.pathname) !== -1) {
-            excluded = true;
-        }
-    });
-
-    return excluded;
-};
-
 // Fetch listener
 self.addEventListener("fetch", function (event) {
     Log('WORKER: fetch event in progress.', event.request.url);
@@ -770,7 +741,7 @@ self.addEventListener("fetch", function (event) {
     var url = new URL(event.request.url);
 
     // We only handle Get requests all others let them pass
-    if (event.request.method !== 'GET' || excludedRequest(url)) {
+    if (event.request.method !== 'GET') {
         return;
     }
 
@@ -779,9 +750,13 @@ self.addEventListener("fetch", function (event) {
         Log('hn:sw: start hooking of fetch, ' + url);
         return event.respondWith(hackernews.fetch(url.pathname).then(function (data) {
             Log('hn:sw: end hooking of fetch');
-            return responseWithJSON(data);
+            return new Response(JSON.stringify(data), {
+                headers: { 'Content-Type': 'application/json' }
+            });
         }));
     }
+
+    Log('WORKER: fetchevent for ' + url);
 
     event.respondWith(caches.match(event.request).then(function (cached) {
         Log('WORKER: fetch event', cached ? '(cached)' : '(network)', event.request.url);
@@ -790,13 +765,37 @@ self.addEventListener("fetch", function (event) {
             return cached;
         }
 
-        return fetch(event.request).then(fetchedFromNetwork(event), unableToResolve).catch(unableToResolve);
+        return fetch(event.request).then(fetchedFromNetwork(event), unableToResolve).catch(function (error) {
+            return caches.match('/');
+        });
     }));
 });
 
+var createCacheBustedRequest = function createCacheBustedRequest(url) {
+    var request = new Request(url, { cache: 'reload' });
+    // See https://fetch.spec.whatwg.org/#concept-request-mode
+    // This is not yet supported in Chrome as of M48, so we need to explicitly check to see
+    // if the cache: 'reload' option had any effect.
+    if ('cache' in request) {
+        return request;
+    }
+
+    // If {cache: 'reload'} didn't have any effect, append a cache-busting URL parameter instead.
+    var bustedUrl = new URL(url, self.location.href);
+    bustedUrl.search += (bustedUrl.search ? '&' : '') + 'cachebust=' + Date.now();
+    return new Request(bustedUrl);
+};
+
 self.addEventListener("install", function (event) {
-    event.waitUntil(caches.open(_config2.default.cacheVersion + _config2.default.cacheName).then(function (cache) {
-        return cache.addAll(_config2.default.filesToCahe);
+    event.waitUntil(
+    // We can't use cache.add() here, since we want OFFLINE_URL to be the cache key, but
+    // the actual URL we end up requesting might include a cache-busting parameter.
+    fetch(createCacheBustedRequest('/')).then(function (response) {
+        return caches.open(_config2.default.cacheVersion + _config2.default.cacheName).then(function (cache) {
+            return cache.put('/', response).then(function () {
+                return cache.addAll(_config2.default.urlsToCache);
+            });
+        });
     }).catch(function (error) {
         return console.error('WORKER: Failed to cache', error);
     }));

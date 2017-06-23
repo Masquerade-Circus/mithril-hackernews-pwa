@@ -78,9 +78,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 var sections = [{ title: 'Top', section: 'top', paginated: true }, { title: 'New', section: 'new', paginated: true }, { title: 'Show', section: 'show', paginated: true }, { title: 'Ask', section: 'ask', paginated: true }, { title: 'Jobs', section: 'job', paginated: true }];
 
-var filesToCahe = ['images/logo-48x48.png', 'images/icons/browserconfig.xml', 'images/icons/manifest.json', 'images/icons/manifest.webapp', 'images/icons/favicon.ico', 'images/icons/favicon-32x32.png', 'images/icons/favicon-16x16.png'];
-
-var requestsToExclude = ['/sw.js'];
+var urlsToCache = ['/', '/hackernews/top/1', '/images/logo-48x48.png', '/images/icons/browserconfig.xml', '/images/icons/manifest.json', '/images/icons/manifest.webapp', '/images/icons/favicon.ico', '/images/icons/favicon-32x32.png', '/images/icons/favicon-16x16.png'];
 
 var cacheName = 'hn-mithril';
 var cacheVersion = "v1::";
@@ -96,12 +94,11 @@ var hnOptions = { log: Log, watch: true };
 
 exports.default = {
     sections: sections,
-    filesToCahe: filesToCahe,
+    urlsToCache: urlsToCache,
     cacheName: cacheName,
     cacheVersion: cacheVersion,
     Log: Log,
-    hnOptions: hnOptions,
-    requestsToExclude: requestsToExclude
+    hnOptions: hnOptions
 };
 
 /***/ }),
@@ -666,10 +663,16 @@ _config2.default.sections.map(function (item) {
     Routes['/' + item.section + '/:param'] = routeFactory(item);
 });
 
+// Add the default route
+Routes['/'] = routeFactory(_config2.default.sections[0]);
+_helpers2.default.Ready(function () {
+    var bodyElement = window.document.body || window.document.getElementsByTagName('body')[0];
+    m.route(bodyElement, '/', Routes);
+});
+
 // When dom ready and service worker activated attach mithril to the dom
 (0, _init2.default)(function () {
-    var bodyElement = window.document.body || window.document.getElementsByTagName('body')[0];
-    m.route(bodyElement, '/top', Routes);
+    console.log('Service worker init');
 });
 
 /***/ }),
@@ -782,7 +785,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 var listItem = {
     view: function view(vnode) {
-        return m('li.fadeIn', m('span[tabindex="-1"]', [m('span.icon-counter[data-font="primary"]', vnode.attrs.score), m('span', [m('small', m('a[target="_blank"][rel="noopener"]', { href: vnode.attrs.url }, vnode.attrs.title)), m('br'), m('small', ['by ', m('a', { href: '/user/' + vnode.attrs.by, oncreate: m.route.link }, vnode.attrs.by), ' ', timeago().format(vnode.attrs.time * 1000), ' | ', m('a', { href: '/comments/' + vnode.attrs.id, oncreate: m.route.link }, vnode.attrs.descendants + ' comments')])])]));
+        return m('li', m('span[tabindex="-1"]', [m('span.icon-counter[data-font="primary"]', vnode.attrs.score), m('span', [m('small', m('a[target="_blank"][rel="noopener"]', { href: vnode.attrs.url }, vnode.attrs.title)), m('br'), m('small', ['by ', m('a', { href: '/user/' + vnode.attrs.by, oncreate: m.route.link }, vnode.attrs.by), ' ', timeago().format(vnode.attrs.time * 1000), ' | ', m('a', { href: '/comments/' + vnode.attrs.id, oncreate: m.route.link }, vnode.attrs.descendants + ' comments')])])]));
     }
 };
 
@@ -864,17 +867,14 @@ var Init = function Init() {
     var fn = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : function () {};
 
     if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.addEventListener('message', function (event) {
-            Log(event.data);
-            if (event.data === 'ready') {
-                fn();
-            }
-        });
-
         navigator.serviceWorker.register('/sw.js', { scope: './' }).then(function () {
             return navigator.serviceWorker.ready;
         }).then(function (registration) {
-            return registration.active.postMessage('init');
+            Log('ServiceWorker registrated and activated');
+            // registration.active.postMessage('init');
+            // setTimeout(() => {
+            //     fn()
+            // }, 10);
         }).catch(function (err) {
             return Log('ServiceWorker registration failed: ', err);
         });
@@ -1022,15 +1022,15 @@ var ListModule = {
         prev: 0
     },
     section: 'top',
-    oncreate: function oncreate(vnode) {
+    oninit: function oninit(vnode) {
         var _this = this;
 
         this.section = vnode.attrs.section.toLowerCase();
+        this.elements = initialData[this.section];
         this.pagination.show = vnode.attrs.paginated || false;
         this.pagination.current = parseInt(vnode.attrs.param) || 1;
         this.pagination.next = this.pagination.current + 1;
         this.pagination.prev = this.pagination.current - 1;
-
         m.request({
             method: "GET",
             url: '/hackernews/' + this.section + '/' + this.pagination.current

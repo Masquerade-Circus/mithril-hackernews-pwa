@@ -110,12 +110,15 @@ let loadView = (filePath, data) => {
  * @return {Void}
  */
 let render = (res, html) => {
-    res.writeHead(200, {
-        'Content-Type': config.mimeTypes.html,
-        'Content-Length': html.length
-    });
+    return Promise.resolve(html)
+        .then(html => {
+            res.writeHead(200, {
+                'Content-Type': config.mimeTypes.html,
+                'Content-Length': html.length
+            });
 
-    res.end(html);
+            res.end(html);
+        });
 };
 
 /**

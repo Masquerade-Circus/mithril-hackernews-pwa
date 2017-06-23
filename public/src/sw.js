@@ -25,11 +25,6 @@ let sendMessage = message => {
 
 let hackernews = Hackernews.init(firebase, config.hnOptions);
 
-// Response handler for hn
-let responseWithJSON = data => new Response(JSON.stringify(data), {
-    headers: {'Content-Type': 'application/json'}
-});
-
 // Function to add the network response to the cache
 let fetchedFromNetwork = event => response => {
     Log('WORKER: fetch response from network.', event.request.url);
@@ -56,25 +51,6 @@ let unableToResolve = () => {
         })
     });
 };
-
-/**
- * Exclude requests from cache
- * @method excludedRequest
- * @param  {Url}        url
- * @return {Boolean}
- */
-let excludedRequest = url => {
-    let excluded = false;
-
-    config.requestsToExclude.map(item => {
-        if (item.indexOf(url.pathname) !== -1) {
-            excluded = true;
-        }
-    });
-
-    return excluded;
-};
-
 // Fetch listener
 self.addEventListener("fetch", event => {
     Log('WORKER: fetch event in progress.', event.request.url);
@@ -82,7 +58,7 @@ self.addEventListener("fetch", event => {
     let url = new URL(event.request.url);
 
     // We only handle Get requests all others let them pass
-    if (event.request.method !== 'GET' || excludedRequest(url)) {
+    if (event.request.method !== 'GET') {
         return;
     }
 
@@ -91,9 +67,13 @@ self.addEventListener("fetch", event => {
         Log((`hn:sw: start hooking of fetch, ${url}`));
         return event.respondWith(hackernews.fetch(url.pathname).then(data => {
             Log((`hn:sw: end hooking of fetch`));
-            return responseWithJSON(data);
+            return new Response(JSON.stringify(data), {
+                headers: {'Content-Type': 'application/json'}
+            });
         }));
     }
+
+    Log('WORKER: fetchevent for ' + url);
 
     event.respondWith(
         caches.match(event.request).then(cached => {
@@ -105,15 +85,38 @@ self.addEventListener("fetch", event => {
 
             return fetch(event.request)
                 .then(fetchedFromNetwork(event), unableToResolve)
-                .catch(unableToResolve);
+                .catch(error => caches.match('/'));
         })
     );
 });
 
+let createCacheBustedRequest = (url) => {
+    let request = new Request(url, {cache: 'reload'});
+    // See https://fetch.spec.whatwg.org/#concept-request-mode
+    // This is not yet supported in Chrome as of M48, so we need to explicitly check to see
+    // if the cache: 'reload' option had any effect.
+    if ('cache' in request) {
+        return request;
+    }
+
+    // If {cache: 'reload'} didn't have any effect, append a cache-busting URL parameter instead.
+    let bustedUrl = new URL(url, self.location.href);
+    bustedUrl.search += (bustedUrl.search ? '&' : '') + 'cachebust=' + Date.now();
+    return new Request(bustedUrl);
+};
+
 self.addEventListener("install", event => {
     event.waitUntil(
-        caches.open(config.cacheVersion + config.cacheName)
-            .then(cache => cache.addAll(config.filesToCahe))
+        // We can't use cache.add() here, since we want OFFLINE_URL to be the cache key, but
+        // the actual URL we end up requesting might include a cache-busting parameter.
+        fetch(createCacheBustedRequest('/'))
+            .then(response => {
+                return caches.open(config.cacheVersion + config.cacheName)
+                    .then(cache => {
+                        return cache.put('/', response)
+                            .then(() =>  cache.addAll(config.urlsToCache));
+                    });
+            })
             .catch(error => console.error('WORKER: Failed to cache', error))
     );
 });

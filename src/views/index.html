@@ -9,7 +9,10 @@
       {{iconLinks}}
       <!-- Icons End -->
       <style type="text/css">{{css}}</style>
-      <script type="text/javascript">{{js}}</script>
+      <script type="text/javascript">
+        var initialData = {{initialData}};
+        {{js}}
+      </script>
 </head>
 <body>
     <header>
@@ -24,7 +27,11 @@
     </header>
     <article>
           <section data-card="full-width">
-                <section></section>
+                <section>
+                      <ul data-list="three-line">
+                            {{list}}
+                      </ul>
+                </section>
           </section>
     </article>
     <footer>

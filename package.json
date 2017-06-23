@@ -14,14 +14,14 @@
     "url": "git+https://github.com/Masquerade-Circus/mithril-hackernews-pwa.git"
   },
   "keywords": [
-      "pwa",
-      "hnpwa",
-      "hackernews",
-      "firebase",
-      "mithril",
-      "micro",
-      "pure material",
-      "spa"
+    "pwa",
+    "hnpwa",
+    "hackernews",
+    "firebase",
+    "mithril",
+    "micro",
+    "pure material",
+    "spa"
   ],
   "author": {
     "name": "Masquerade Circus",

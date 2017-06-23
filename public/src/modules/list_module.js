@@ -9,13 +9,13 @@ let ListModule = {
         prev: 0
     },
     section: 'top',
-    oncreate(vnode) {
+    oninit(vnode) {
         this.section = vnode.attrs.section.toLowerCase();
+        this.elements = initialData[this.section];
         this.pagination.show = vnode.attrs.paginated || false;
         this.pagination.current = parseInt(vnode.attrs.param) || 1;
         this.pagination.next = this.pagination.current + 1;
         this.pagination.prev = this.pagination.current - 1;
-
         m.request({
             method: "GET",
             url: `/hackernews/${this.section}/${this.pagination.current}`

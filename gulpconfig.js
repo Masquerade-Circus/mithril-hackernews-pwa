@@ -31,7 +31,7 @@ let favicons = {
     background: "#3f51b5",             // Background colour for flattened icons. `string`
     path: "/images/icons/",                      // Path for overriding default icons path. `string`
     display: "standalone",          // Android display: "browser" or "standalone". `string`
-    start_url: "/top",    // Android start application's URL. `string`
+    start_url: "/",    // Android start application's URL. `string`
     orientation: "portrait",        // Android orientation: "portrait" or "landscape". `string`
     version: "1.0",                 // Your application's version number. `number`
     developerName: "Christian César Robledo López (Masquerade Circus)",            // Your (or your developer's) name. `string`
