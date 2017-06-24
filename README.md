@@ -10,7 +10,7 @@ This is a minimal and direct development. No fancy stuff. There is much that cou
 
 <p align="center">
   <a href="https://micro-mithril-hn.now.sh" target="_blank">
-    <img src="micro-mithril-hn.jpg"/>
+    <img src="micro-mithril-hn.png"/>
     <br>
     Live Demo
   </a>
