@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 29);
+/******/ 	return __webpack_require__(__webpack_require__.s = 30);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -78,7 +78,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 var sections = [{ title: 'Top', section: 'top', paginated: true }, { title: 'New', section: 'new', paginated: true }, { title: 'Show', section: 'show', paginated: true }, { title: 'Ask', section: 'ask', paginated: true }, { title: 'Jobs', section: 'job', paginated: true }];
 
-var urlsToCache = ['/', '/hackernews/top/1', '/images/logo-48x48.png', '/images/icons/browserconfig.xml', '/images/icons/manifest.json', '/images/icons/manifest.webapp', '/images/icons/favicon.ico', '/images/icons/favicon-32x32.png', '/images/icons/favicon-16x16.png'];
+var urlsToCache = ['/hackernews/top/1'];
 
 var cacheName = 'hn-mithril';
 var cacheVersion = "v1::";
@@ -139,15 +139,69 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _comments_component = __webpack_require__(10);
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var api = {
+    fetch: function fetch(section) {
+        var param = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+
+        return m.request({
+            method: "GET",
+            url: "/hackernews/" + section + "/" + param
+        });
+    },
+    getItem: function getItem(id) {
+        if ((typeof id === "undefined" ? "undefined" : _typeof(id)) === 'object') {
+            return Promise.resolve(id);
+        }
+
+        return m.request({
+            method: "GET",
+            url: "/hackernews/item/" + id
+        }).then(function (item) {
+            return item[0] || item;
+        });
+    },
+    getKids: function getKids() {
+        var kids = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+        var i = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+
+        if (i >= kids.length) {
+            return;
+        }
+
+        var kid = kids[i];
+        return api.getItem(kid).then(function (kid) {
+            kids[i] = kid;
+            i++;
+            m.redraw();
+            api.getKids(kids, i);
+        });
+    }
+};
+
+exports.default = api;
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _comments_component = __webpack_require__(11);
 
 var _comments_component2 = _interopRequireDefault(_comments_component);
 
-var _credits_component = __webpack_require__(11);
+var _credits_component = __webpack_require__(12);
 
 var _credits_component2 = _interopRequireDefault(_credits_component);
 
-var _list_item_component = __webpack_require__(12);
+var _list_item_component = __webpack_require__(13);
 
 var _list_item_component2 = _interopRequireDefault(_list_item_component);
 
@@ -160,7 +214,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -350,7 +404,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, process) {(function (global, undefined) {
@@ -540,10 +594,10 @@ process.umask = function() { return 0; };
     attachTo.clearImmediate = clearImmediate;
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(3)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(4)))
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var apply = Function.prototype.apply;
@@ -596,29 +650,29 @@ exports._unrefActive = exports.active = function(item) {
 };
 
 // setimmediate attaches itself to the global object
-__webpack_require__(4);
+__webpack_require__(5);
 exports.setImmediate = setImmediate;
 exports.clearImmediate = clearImmediate;
 
 
 /***/ }),
-/* 6 */,
 /* 7 */,
-/* 8 */
+/* 8 */,
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _init = __webpack_require__(14);
+var _init = __webpack_require__(15);
 
 var _init2 = _interopRequireDefault(_init);
 
-var _helpers = __webpack_require__(13);
+var _helpers = __webpack_require__(14);
 
 var _helpers2 = _interopRequireDefault(_helpers);
 
-var _modules = __webpack_require__(16);
+var _modules = __webpack_require__(17);
 
 var _modules2 = _interopRequireDefault(_modules);
 
@@ -676,8 +730,8 @@ _helpers2.default.Ready(function () {
 });
 
 /***/ }),
-/* 9 */,
-/* 10 */
+/* 10 */,
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -687,7 +741,11 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+var _api = __webpack_require__(2);
+
+var _api2 = _interopRequireDefault(_api);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var CommentItem = {
     collapsed: true,
@@ -711,37 +769,8 @@ var CommentItem = {
 };
 
 var CommentList = {
-    getKids: function getKids() {
-        var _this2 = this;
-
-        var kids = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-        var i = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-
-        if (i >= kids.length) {
-            return;
-        }
-
-        var kid = kids[i];
-        return this.getItem(kid).then(function (kid) {
-            kids[i] = kid;
-            i++;
-            m.redraw();
-            _this2.getKids(kids, i);
-        });
-    },
-    getItem: function getItem(id) {
-        if ((typeof id === 'undefined' ? 'undefined' : _typeof(id)) === 'object') {
-            return Promise.resolve(id);
-        }
-        return m.request({
-            method: "GET",
-            url: '/hackernews/item/' + id
-        }).then(function (item) {
-            return item[0] || item;
-        });
-    },
     oninit: function oninit(vnode) {
-        this.getKids(vnode.attrs.kids);
+        _api2.default.getKids(vnode.attrs.kids);
     },
     view: function view(vnode) {
         return vnode.attrs.kids.map(function (kid) {
@@ -755,7 +784,7 @@ var CommentList = {
 exports.default = CommentList;
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -774,7 +803,7 @@ var Credits = {
 exports.default = Credits;
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -792,7 +821,7 @@ var listItem = {
 exports.default = listItem;
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -828,7 +857,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -838,11 +867,11 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _mithril = __webpack_require__(26);
+var _mithril = __webpack_require__(27);
 
 var _mithril2 = _interopRequireDefault(_mithril);
 
-var _timeago = __webpack_require__(28);
+var _timeago = __webpack_require__(29);
 
 var _timeago2 = _interopRequireDefault(_timeago);
 
@@ -871,10 +900,6 @@ var Init = function Init() {
             return navigator.serviceWorker.ready;
         }).then(function (registration) {
             Log('ServiceWorker registrated and activated');
-            // registration.active.postMessage('init');
-            // setTimeout(() => {
-            //     fn()
-            // }, 10);
         }).catch(function (err) {
             return Log('ServiceWorker registration failed: ', err);
         });
@@ -884,7 +909,7 @@ var Init = function Init() {
 exports.default = Init;
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -894,29 +919,23 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _components = __webpack_require__(2);
+var _components = __webpack_require__(3);
 
 var _components2 = _interopRequireDefault(_components);
+
+var _api = __webpack_require__(2);
+
+var _api2 = _interopRequireDefault(_api);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var CommentsModule = {
     comments: {},
     item: {},
-    getItem: function getItem(id) {
-        return m.request({
-            method: "GET",
-            url: '/hackernews/item/' + id
-        }).then(function (item) {
-            return item[0] || item;
-        });
-    },
-    oncreate: function oncreate(vnode) {
+    oninit: function oninit(vnode) {
         var _this = this;
 
-        Promise.resolve().then(function () {
-            return _this.getItem(vnode.attrs.param);
-        }).then(function (item) {
+        _api2.default.getItem(vnode.attrs.param).then(function (item) {
             return _this.item = item;
         });
     },
@@ -930,7 +949,7 @@ var CommentsModule = {
 exports.default = CommentsModule;
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -940,19 +959,19 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _layout_module = __webpack_require__(17);
+var _layout_module = __webpack_require__(18);
 
 var _layout_module2 = _interopRequireDefault(_layout_module);
 
-var _list_module = __webpack_require__(18);
+var _list_module = __webpack_require__(19);
 
 var _list_module2 = _interopRequireDefault(_list_module);
 
-var _user_module = __webpack_require__(19);
+var _user_module = __webpack_require__(20);
 
 var _user_module2 = _interopRequireDefault(_user_module);
 
-var _comments_module = __webpack_require__(15);
+var _comments_module = __webpack_require__(16);
 
 var _comments_module2 = _interopRequireDefault(_comments_module);
 
@@ -966,7 +985,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -997,7 +1016,7 @@ var Layout = {
 exports.default = Layout;
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1007,9 +1026,13 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _components = __webpack_require__(2);
+var _components = __webpack_require__(3);
 
 var _components2 = _interopRequireDefault(_components);
+
+var _api = __webpack_require__(2);
+
+var _api2 = _interopRequireDefault(_api);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1031,10 +1054,7 @@ var ListModule = {
         this.pagination.current = parseInt(vnode.attrs.param) || 1;
         this.pagination.next = this.pagination.current + 1;
         this.pagination.prev = this.pagination.current - 1;
-        m.request({
-            method: "GET",
-            url: '/hackernews/' + this.section + '/' + this.pagination.current
-        }).then(function (elements) {
+        _api2.default.fetch(this.section, this.pagination.current).then(function (elements) {
             return _this.elements = elements;
         });
     },
@@ -1052,7 +1072,7 @@ var ListModule = {
 exports.default = ListModule;
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1062,21 +1082,22 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _components = __webpack_require__(2);
+var _components = __webpack_require__(3);
 
 var _components2 = _interopRequireDefault(_components);
+
+var _api = __webpack_require__(2);
+
+var _api2 = _interopRequireDefault(_api);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var UserModule = {
     user: {},
-    oncreate: function oncreate(vnode) {
+    oninit: function oninit(vnode) {
         var _this = this;
 
-        m.request({
-            method: "GET",
-            url: '/hackernews/user/' + vnode.attrs.param
-        }).then(function (user) {
+        _api2.default.fetch('user', vnode.attrs.param).then(function (user) {
             return _this.user = user;
         });
     },
@@ -1090,13 +1111,13 @@ var UserModule = {
 exports.default = UserModule;
 
 /***/ }),
-/* 20 */,
 /* 21 */,
 /* 22 */,
 /* 23 */,
 /* 24 */,
 /* 25 */,
-/* 26 */
+/* 26 */,
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(setImmediate, global) {;(function() {
@@ -2326,20 +2347,20 @@ m.vnode = Vnode
 if (true) module["exports"] = m
 else window.m = m
 }());
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5).setImmediate, __webpack_require__(1)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6).setImmediate, __webpack_require__(1)))
 
 /***/ }),
-/* 27 */,
-/* 28 */
+/* 28 */,
+/* 29 */
 /***/ (function(module, exports) {
 
-!function(t,e){"object"==typeof module&&module.exports?(module.exports=e(),module.exports.default=module.exports):t.timeago=e()}("undefined"!=typeof window?window:this,function(){function t(t){return t instanceof Date?t:isNaN(t)?/^\d+$/.test(t)?new Date(e(t)):(t=(t||"").trim().replace(/\.\d+/,"").replace(/-/,"/").replace(/-/,"/").replace(/(\d)T(\d)/,"$1 $2").replace(/Z/," UTC").replace(/([\+\-]\d\d)\:?(\d\d)/," $1$2"),new Date(t)):new Date(e(t))}function e(t){return parseInt(t)}function n(t,n,r){n=p[n]?n:p[r]?r:"en";for(var o=0,i=t<0?1:0,a=t=Math.abs(t);t>=h[o]&&o<m;o++)t/=h[o];return t=e(t),o*=2,t>(0===o?9:1)&&(o+=1),p[n](t,o,a)[i].replace("%s",t)}function r(e,n){return((n=n?t(n):new Date)-t(e))/1e3}function o(t){for(var e=1,n=0,r=Math.abs(t);t>=h[n]&&n<m;n++)t/=h[n],e*=h[n];return r%=e,r=r?e-r:e,Math.ceil(r)}function i(t){return t.dataset.timeago?t.dataset.timeago:a(t,w)}function a(t,e){return t.getAttribute?t.getAttribute(e):t.attr?t.attr(e):void 0}function u(t,e){return t.setAttribute?t.setAttribute(_,e):t.attr?t.attr(_,e):void 0}function c(t){return a(t,_)}function d(t,e){this.nowDate=t,this.defaultLocale=e||"en"}function f(t,e){return new d(t,e)}var s="second_minute_hour_day_week_month_year".split("_"),l="秒_分钟_小时_天_周_月_年".split("_"),p={en:function(t,e){if(0===e)return["just now","right now"];var n=s[parseInt(e/2)];return t>1&&(n+="s"),[t+" "+n+" ago","in "+t+" "+n]},zh_CN:function(t,e){if(0===e)return["刚刚","片刻后"];var n=l[parseInt(e/2)];return[t+n+"前",t+n+"后"]}},h=[60,60,24,7,365/7/12,12],m=6,w="datetime",_="data-tid",v={};return d.prototype.doRender=function(t,e,i){var a,c=r(e,this.nowDate),d=this;t.innerHTML=n(c,i,this.defaultLocale),v[a=setTimeout(function(){d.doRender(t,e,i),delete v[a]},Math.min(1e3*o(c),2147483647))]=0,u(t,a)},d.prototype.format=function(t,e){return n(r(t,this.nowDate),e,this.defaultLocale)},d.prototype.render=function(t,e){void 0===t.length&&(t=[t]);for(var n=0,r=t.length;n<r;n++)this.doRender(t[n],i(t[n]),e)},d.prototype.setLocale=function(t){this.defaultLocale=t},f.register=function(t,e){p[t]=e},f.cancel=function(t){var e;if(t)(e=c(t))&&(clearTimeout(e),delete v[e]);else{for(e in v)clearTimeout(e);v={}}},f});
+!function(t,e){"object"==typeof module&&module.exports?(module.exports=e(),module.exports.default=module.exports):t.timeago=e()}("undefined"!=typeof window?window:this,function(){function t(t){return t instanceof Date?t:isNaN(t)?/^\d+$/.test(t)?new Date(e(t)):(t=(t||"").trim().replace(/\.\d+/,"").replace(/-/,"/").replace(/-/,"/").replace(/(\d)T(\d)/,"$1 $2").replace(/Z/," UTC").replace(/([\+\-]\d\d)\:?(\d\d)/," $1$2"),new Date(t)):new Date(e(t))}function e(t){return parseInt(t)}function n(t,n,r){n=l[n]?n:l[r]?r:"en";for(var o=0,i=t<0?1:0,a=t=Math.abs(t);t>=p[o]&&o<h;o++)t/=p[o];return t=e(t),o*=2,t>(0===o?9:1)&&(o+=1),l[n](t,o,a)[i].replace("%s",t)}function r(e,n){return((n=n?t(n):new Date)-t(e))/1e3}function o(t){for(var e=1,n=0,r=Math.abs(t);t>=p[n]&&n<h;n++)t/=p[n],e*=p[n];return r%=e,r=r?e-r:e,Math.ceil(r)}function i(t){return a(t,"data-timeago")||a(t,"datetime")}function a(t,e){return t.getAttribute?t.getAttribute(e):t.attr?t.attr(e):void 0}function u(t,e){return t.setAttribute?t.setAttribute(m,e):t.attr?t.attr(m,e):void 0}function c(t,e){this.nowDate=t,this.defaultLocale=e||"en"}function d(t,e){return new c(t,e)}var f="second_minute_hour_day_week_month_year".split("_"),s="秒_分钟_小时_天_周_月_年".split("_"),l={en:function(t,e){if(0===e)return["just now","right now"];var n=f[parseInt(e/2)];return t>1&&(n+="s"),[t+" "+n+" ago","in "+t+" "+n]},zh_CN:function(t,e){if(0===e)return["刚刚","片刻后"];var n=s[parseInt(e/2)];return[t+n+"前",t+n+"后"]}},p=[60,60,24,7,365/7/12,12],h=6,m="data-tid",w={};return c.prototype.doRender=function(t,e,i){var a,c=r(e,this.nowDate),d=this;t.innerHTML=n(c,i,this.defaultLocale),w[a=setTimeout(function(){d.doRender(t,e,i),delete w[a]},Math.min(1e3*o(c),2147483647))]=0,u(t,a)},c.prototype.format=function(t,e){return n(r(t,this.nowDate),e,this.defaultLocale)},c.prototype.render=function(t,e){void 0===t.length&&(t=[t]);for(var n=0,r=t.length;n<r;n++)this.doRender(t[n],i(t[n]),e)},c.prototype.setLocale=function(t){this.defaultLocale=t},d.register=function(t,e){l[t]=e},d.cancel=function(t){var e;if(t)(e=a(t,m))&&(clearTimeout(e),delete w[e]);else{for(e in w)clearTimeout(e);w={}}},d});
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(8);
+module.exports = __webpack_require__(9);
 
 
 /***/ })

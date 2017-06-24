@@ -26,12 +26,25 @@ Helper.loadView('./src/views/index.html').then(template => indexTemplate = templ
 
 let getSectionList = async (req, section, upDir = '.') => {
     let initialData = {
-        top: await HNService.fetch('/hackernews/top/1'),
-        new: await HNService.fetch('/hackernews/new/1'),
-        show: await HNService.fetch('/hackernews/show/1'),
-        ask: await HNService.fetch('/hackernews/ask/1'),
-        job: await HNService.fetch('/hackernews/job/1')
+        top: [],
+        new: [],
+        show: [],
+        ask: [],
+        job: []
     };
+    if (config.initialData) {
+        if (config.initialDataAll) {
+            initialData.top = await HNService.fetch(`/hackernews/top/1`);
+            initialData.new = await HNService.fetch(`/hackernews/new/1`);
+            initialData.show = await HNService.fetch(`/hackernews/show/1`);
+            initialData.ask = await HNService.fetch(`/hackernews/ask/1`);
+            initialData.job = await HNService.fetch(`/hackernews/job/1`);
+        }
+
+        if (!config.initialDataAll) {
+            initialData[section] = await HNService.fetch(`/hackernews/${section}/1`);
+        }
+    }
 
     let options = {upDir: upDir, list: '', initialData: JSON.stringify(initialData)};
 

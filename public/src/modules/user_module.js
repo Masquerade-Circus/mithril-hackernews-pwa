@@ -1,13 +1,11 @@
 import Component from '../components';
+import Api from '../api';
 
 let UserModule = {
     user: {},
-    oncreate(vnode) {
-        m.request({
-            method: "GET",
-            url: `/hackernews/user/${vnode.attrs.param}`
-        })
-        .then(user => this.user = user);
+    oninit(vnode) {
+        Api.fetch('user', vnode.attrs.param)
+            .then(user => this.user = user);
     },
     view(vnode) {
         return [

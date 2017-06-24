@@ -7,15 +7,11 @@ let sections = [
 ];
 
 let urlsToCache = [
-    '/',
     '/hackernews/top/1',
-    '/images/logo-48x48.png',
-    '/images/icons/browserconfig.xml',
-    '/images/icons/manifest.json',
-    '/images/icons/manifest.webapp',
-    '/images/icons/favicon.ico',
-    '/images/icons/favicon-32x32.png',
-    '/images/icons/favicon-16x16.png'
+    // '/images/logo-48x48.png',
+    // '/images/icons/favicon.ico',
+    // '/images/icons/favicon-32x32.png',
+    // '/images/icons/favicon-16x16.png'
 ];
 
 let cacheName = 'hn-mithril';

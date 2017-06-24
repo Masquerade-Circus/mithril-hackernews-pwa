@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 30);
+/******/ 	return __webpack_require__(__webpack_require__.s = 31);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -78,7 +78,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 var sections = [{ title: 'Top', section: 'top', paginated: true }, { title: 'New', section: 'new', paginated: true }, { title: 'Show', section: 'show', paginated: true }, { title: 'Ask', section: 'ask', paginated: true }, { title: 'Jobs', section: 'job', paginated: true }];
 
-var urlsToCache = ['/', '/hackernews/top/1', '/images/logo-48x48.png', '/images/icons/browserconfig.xml', '/images/icons/manifest.json', '/images/icons/manifest.webapp', '/images/icons/favicon.ico', '/images/icons/favicon-32x32.png', '/images/icons/favicon-16x16.png'];
+var urlsToCache = ['/hackernews/top/1'];
 
 var cacheName = 'hn-mithril';
 var cacheVersion = "v1::";
@@ -130,7 +130,8 @@ module.exports = g;
 
 /***/ }),
 /* 2 */,
-/* 3 */
+/* 3 */,
+/* 4 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -320,7 +321,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, process) {(function (global, undefined) {
@@ -510,10 +511,10 @@ process.umask = function() { return 0; };
     attachTo.clearImmediate = clearImmediate;
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(3)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(4)))
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var apply = Function.prototype.apply;
@@ -566,18 +567,18 @@ exports._unrefActive = exports.active = function(item) {
 };
 
 // setimmediate attaches itself to the global object
-__webpack_require__(4);
+__webpack_require__(5);
 exports.setImmediate = setImmediate;
 exports.clearImmediate = clearImmediate;
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/*! @license Firebase v4.1.2
-Build: rev-4a4cc92
+/*! @license Firebase v4.1.3
+Build: rev-1234895
 Terms: https://firebase.google.com/terms/ */
 
 
@@ -586,7 +587,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _firebase_app = __webpack_require__(23);
+var _firebase_app = __webpack_require__(24);
 
 // Export a single instance of firebase app
 var firebase = (0, _firebase_app.createFirebaseNamespace)(); /**
@@ -611,12 +612,12 @@ module.exports = exports['default'];
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(global) {/*! @license Firebase v4.1.2
-Build: rev-4a4cc92
+/* WEBPACK VAR INJECTION */(function(global) {/*! @license Firebase v4.1.3
+Build: rev-1234895
 Terms: https://firebase.google.com/terms/ */
 
 
@@ -651,7 +652,7 @@ if (typeof global !== 'undefined') {
         throw new Error('polyfill failed because global object is unavailable in this environment');
     }
 }
-var PromiseImpl = scope.Promise || __webpack_require__(27);
+var PromiseImpl = scope.Promise || __webpack_require__(28);
 var local = exports.local = {
     Promise: PromiseImpl,
     GoogPromise: PromiseImpl
@@ -661,20 +662,20 @@ var local = exports.local = {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 8 */,
-/* 9 */
+/* 9 */,
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _app = __webpack_require__(6);
+var _app = __webpack_require__(7);
 
 var _app2 = _interopRequireDefault(_app);
 
-__webpack_require__(25);
+__webpack_require__(26);
 
-var _firebaseHackernews = __webpack_require__(20);
+var _firebaseHackernews = __webpack_require__(21);
 
 var _firebaseHackernews2 = _interopRequireDefault(_firebaseHackernews);
 
@@ -805,11 +806,11 @@ self.addEventListener("activate", function (event) {
     event.waitUntil(caches.keys().then(function (keys) {
         return Promise.all(keys.filter(function (key) {
             return !key.startsWith(_config2.default.cacheVersion);
-        } // Filter by keys that don't start with the latest version prefix.
-        ).map(function (key) {
+        }) // Filter by keys that don't start with the latest version prefix.
+        .map(function (key) {
             return caches.delete(key);
-        } // Return a promise that's fulfilled when each outdated cache is deleted.
-        ));
+        }) // Return a promise that's fulfilled when each outdated cache is deleted.
+        );
     }).then(function () {
         return self.clients.claim();
     }));
@@ -823,7 +824,6 @@ self.addEventListener('message', function (event) {
 });
 
 /***/ }),
-/* 10 */,
 /* 11 */,
 /* 12 */,
 /* 13 */,
@@ -833,18 +833,19 @@ self.addEventListener('message', function (event) {
 /* 17 */,
 /* 18 */,
 /* 19 */,
-/* 20 */
-/***/ (function(module, exports, __webpack_require__) {
-
-!function(e,t){if(true)module.exports=t();else if("function"==typeof define&&define.amd)define([],t);else{var n=t();for(var r in n)("object"==typeof exports?exports:e)[r]=n[r]}}(this,function(){return function(e){function t(r){if(n[r])return n[r].exports;var i=n[r]={i:r,l:!1,exports:{}};return e[r].call(i.exports,i,i.exports,t),i.l=!0,i.exports}var n={};return t.m=e,t.c=n,t.i=function(e){return e},t.d=function(e,n,r){t.o(e,n)||Object.defineProperty(e,n,{configurable:!1,enumerable:!0,get:r})},t.n=function(e){var n=e&&e.__esModule?function(){return e.default}:function(){return e};return t.d(n,"a",n),n},t.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},t.p="",t(t.s=2)}([function(e,t,n){"use strict";function r(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}Object.defineProperty(t,"__esModule",{value:!0});var i=function(){function e(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}return function(t,n,r){return n&&e(t.prototype,n),r&&e(t,r),t}}(),o="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},a="https://hacker-news.firebaseio.com",u=function(){return"object"===("undefined"==typeof window?"undefined":o(window))?performance.now():Date.now()},c=function(){function e(){r(this,e),this.reset()}return i(e,[{key:"reset",value:function(){this._data={items:{},top:[],new:[],best:[],ask:[],show:[],job:[],users:{}}}},{key:"touch",value:function(e){this._data[e]._updated=u()}},{key:"set",value:function(e,t){if(Array.isArray(this._data[e]))this._data[e]=t;else{if("object"!==o(this._data[e]))throw new TypeError("Unsupported type "+e);this._data[e][t.id]=t}this.touch(e)}},{key:"get",value:function(e){return this._data[e]}},{key:"exist",value:function(e){if(Array.isArray(this._data[e]))return this._data[e].length>0;if("object"===o(this._data[e]))return Object.keys(this._data[e])>0;throw new Error("Unsupported type "+e)}},{key:"length",value:function(e){return Array.isArray(this._data[e])?this._data[e].length:Object.keys(this._data[e]).length}},{key:"cached",value:function(e){return this._data.items[e]}},{key:"data",value:function(e){return e&&(this._data=e),this._data}}]),e}(),s=["top","new","best","ask","show","job"],f=function(){function e(t,n){r(this,e),n=Object.assign({log:function(){}},n),this._app=t.initializeApp({databaseURL:a},"hackernews"),this._database=this._app.database(),this._cache=new c,this.log=n.log}return i(e,[{key:"_defaultOption",value:function(e,t){return Object.assign({page:1,count:30},t,e)}},{key:"_fetch",value:function(e){var t=this;return new Promise(function(n,r){t._database.ref("v0/"+e).once("value",function(e){n(e.val())}).catch(function(e){console.error(e),r(e)})})}},{key:"stories",value:function(e,t){var n=this;if(!s.includes(e))return new Error("Invalid type of stories "+e);t=this._defaultOption(t,{force:!1});var r=function(){return n._fetch(e+"stories").then(function(t){n._cache.set(e,t)})};return Promise.resolve(!t.force&&this._cache.exist(e)).then(function(e){return Promise.resolve(!!e||r())}).then(function(){return n._getItems(e,t)})}},{key:"_getItems",value:function(e,t,n){var r=this._cache.get(e),i=t.page>0?(t.page-1)*t.count:0,o=t.page>0?i+t.count:r.length,a=r.slice(i,o);return!0===n?this.itemsCached(a,t):this.items(a,t)}},{key:"items",value:function(e){var t=this,n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{force:!1};return Array.isArray(e)||(e=[e]),Promise.all(e.map(function(e){var r=n.force?void 0:t._cache.cached(e);return r?Promise.resolve(r):t._fetch("item/"+e)})).then(function(e){return e.forEach(function(e){return t._cache.set("items",e)}),e})}},{key:"user",value:function(e){var t=this,n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{force:!1},r=function(){return t._fetch("user/"+e).then(function(e){return t._cache.set("users",e)})};return Promise.resolve(!n.force&&this._cache.exist("users")).then(function(e){return Promise.resolve(!!e||r())}).then(function(){return t._cache.get("users")[e]})}},{key:"maxItem",value:function(){return this._fetch("maxitem")}},{key:"update",value:function(){var e=this;return this._fetch("updates").then(function(t){var n=t.profiles.map(function(t){return e.user(t,!0)}).concat(e.items(t.items));return Promise.all(n).then(function(){return t})})}},{key:"watch",value:function(){var e=this,t=!(arguments.length>0&&void 0!==arguments[0])||arguments[0],n=t?"on":"off";return Promise.all(s.map(function(t){return new Promise(function(r){e._database.ref("v0/"+t+"stories")[n]("value",function(n){e._cache.set(t,n.val()),r()})})}))}},{key:"length",value:function(e){var t=this;return new Promise(function(n){return n(t._cache.length(e))})}},{key:"kids",value:function(e){var t=this;return new Promise(function(n){var r={};if(!t._cache.cached(e))return void n(r);(function e(n){if(n&&n.length>0)return t.items(n).then(function(t){return Promise.all(t.map(function(t){return r[t.id]=t,e(t.kids)}))})})(t._cache.cached(e).kids).then(function(){n(r)})})}},{key:"data",value:function(e){var t=this;return this.log("hn:data: "+e),new Promise(function(n){return n(t._cache.data(e))})}},{key:"itemsCached",value:function(e){var t=this;return Array.isArray(e)||(e=[e]),e.map(function(e){return t._cache.cached(e)}).filter(function(e){return void 0!==e})}},{key:"storiesCached",value:function(e,t){return s.includes(e)?this._getItems(e,this._defaultOption(t),!0):new Error("Invalid type of stories "+e)}},{key:"lengthCached",value:function(e){return this._cache.length(e)}},{key:"dataCached",value:function(e){return this.log("hn:dataCached: "+e),this._cache.data(e)}},{key:"fetch",value:function(e){var t=this;return new Promise(function(n,r){var i=e.replace("/hackernews/","").split("/"),o=i[0],a=i[1];return t.log("hn:fetch: "+e+", "+i+", "+o+", "+a),"user"===o&&a?t.user(a).then(n):"item"===o&&a?t.items(a&&a).then(n):"kids"===o&&a?t.kids(a).then(n):"length"===o&&a?t.length(a).then(n):/top|new|best|ask|show|job/.test(o)?t.stories(o,{page:a||1}).then(n):void r(new Error("invalid type: "+o+", or params: "+a))})}}]),e}();t.default=f},,function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.init=void 0;var r=n(0),i=function(e){return e&&e.__esModule?e:{default:e}}(r),o=t.init=function(){function e(e,n){if(!e)throw new Error("hackernew() requires firebase app instance");return t||(t=new i.default(e,n)),t}var t=void 0;return e}();t.default={init:o}}])});
-
-/***/ }),
+/* 20 */,
 /* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
+!function(e,t){if(true)module.exports=t();else if("function"==typeof define&&define.amd)define([],t);else{var n=t();for(var r in n)("object"==typeof exports?exports:e)[r]=n[r]}}(this,function(){return function(e){function t(r){if(n[r])return n[r].exports;var i=n[r]={i:r,l:!1,exports:{}};return e[r].call(i.exports,i,i.exports,t),i.l=!0,i.exports}var n={};return t.m=e,t.c=n,t.i=function(e){return e},t.d=function(e,n,r){t.o(e,n)||Object.defineProperty(e,n,{configurable:!1,enumerable:!0,get:r})},t.n=function(e){var n=e&&e.__esModule?function(){return e.default}:function(){return e};return t.d(n,"a",n),n},t.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},t.p="",t(t.s=2)}([function(e,t,n){"use strict";function r(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}Object.defineProperty(t,"__esModule",{value:!0});var i=function(){function e(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}return function(t,n,r){return n&&e(t.prototype,n),r&&e(t,r),t}}(),o="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},a="https://hacker-news.firebaseio.com",u=function(){return"object"===("undefined"==typeof window?"undefined":o(window))?performance.now():Date.now()},s=function(){function e(){r(this,e),this.reset()}return i(e,[{key:"reset",value:function(){this._data={items:{},top:[],new:[],best:[],ask:[],show:[],job:[],users:{}}}},{key:"touch",value:function(e){this._data[e]._updated=u()}},{key:"set",value:function(e,t){if(Array.isArray(this._data[e]))this._data[e]=t;else{if("object"!==o(this._data[e]))throw new TypeError("Unsupported type "+e);this._data[e][t.id]=t}this.touch(e)}},{key:"get",value:function(e){return this._data[e]}},{key:"exist",value:function(e){if(Array.isArray(this._data[e]))return this._data[e].length>0;if("object"===o(this._data[e]))return Object.keys(this._data[e])>0;throw new Error("Unsupported type "+e)}},{key:"length",value:function(e){return Array.isArray(this._data[e])?this._data[e].length:Object.keys(this._data[e]).length}},{key:"cached",value:function(e){return this._data.items[e]}},{key:"item",value:function(e){return this._data.items[e]}},{key:"data",value:function(e){return e&&(this._data=e),this._data}}]),e}(),c=["top","new","best","ask","show","job"],f=function(){function e(t,n){r(this,e),n=Object.assign({log:function(){}},n),this._app=t.initializeApp({databaseURL:a},"hackernews"),this._database=this._app.database(),this._cache=new s,this.log=n.log}return i(e,[{key:"_defaultOption",value:function(e,t){return Object.assign({page:1,count:30},t,e)}},{key:"_fetch",value:function(e){var t=this;return new Promise(function(n,r){t._database.ref("v0/"+e).once("value",function(e){n(e.val())}).catch(function(e){console.error(e),r(e)})})}},{key:"stories",value:function(e,t){var n=this;if(!c.includes(e))return new Error("Invalid type of stories "+e);t=this._defaultOption(t,{force:!1});var r=function(){return n._fetch(e+"stories").then(function(t){n._cache.set(e,t)})};return Promise.resolve(!t.force&&this._cache.exist(e)).then(function(e){return Promise.resolve(!!e||r())}).then(function(){return n._getItems(e,t)})}},{key:"_getItems",value:function(e,t,n){var r=this._cache.get(e),i=t.page>0?(t.page-1)*t.count:0,o=t.page>0?i+t.count:r.length,a=r.slice(i,o);return!0===n?this.itemsCached(a,t):this.items(a,t)}},{key:"items",value:function(e){var t=this,n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{force:!1};return Array.isArray(e)||(e=[e]),Promise.all(e.map(function(e){var r=n.force?void 0:t._cache.cached(e);return r?Promise.resolve(r):t._fetch("item/"+e)})).then(function(e){return e.forEach(function(e){return t._cache.set("items",e)}),e})}},{key:"user",value:function(e){var t=this,n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{force:!1},r=function(){return t._fetch("user/"+e).then(function(e){return t._cache.set("users",e)})};return Promise.resolve(!n.force&&this._cache.exist("users")).then(function(e){return Promise.resolve(!!e||r())}).then(function(){return t._cache.get("users")[e]})}},{key:"maxItem",value:function(){return this._fetch("maxitem")}},{key:"update",value:function(){var e=this;return this._fetch("updates").then(function(t){var n=t.profiles.map(function(t){return e.user(t,!0)}).concat(e.items(t.items));return Promise.all(n).then(function(){return t})})}},{key:"watch",value:function(){var e=this,t=!(arguments.length>0&&void 0!==arguments[0])||arguments[0],n=t?"on":"off";return Promise.all(c.map(function(t){return new Promise(function(r){e._database.ref("v0/"+t+"stories")[n]("value",function(n){e._cache.set(t,n.val()),r()})})}))}},{key:"length",value:function(e){var t=this;return new Promise(function(n){return n(t._cache.length(e))})}},{key:"kids",value:function(e){var t=this;return new Promise(function(n){var r={},i=function e(n){if(n&&n.length>0)return t.items(n).then(function(t){return Promise.all(t.map(function(t){return r[t.id]=t,e(t.kids)}))})},o=t._cache.item(e);(o?Promise.resolve([o]):t.items(e)).then(function(e){return i(t._cache.cached(e[0].id).kids).then(function(){n(r)})})})}},{key:"data",value:function(e){var t=this;return this.log("hn:data: "+e),new Promise(function(n){return n(t._cache.data(e))})}},{key:"itemsCached",value:function(e){var t=this;return Array.isArray(e)||(e=[e]),e.map(function(e){return t._cache.cached(e)}).filter(function(e){return void 0!==e})}},{key:"storiesCached",value:function(e,t){return c.includes(e)?this._getItems(e,this._defaultOption(t),!0):new Error("Invalid type of stories "+e)}},{key:"lengthCached",value:function(e){return this._cache.length(e)}},{key:"dataCached",value:function(e){return this.log("hn:dataCached: "+e),this._cache.data(e)}},{key:"fetch",value:function(e){var t=this;return new Promise(function(n,r){var i=e.replace("/hackernews/","").split("/"),o=i[0],a=i[1];return t.log("hn:fetch: "+e+", "+i+", "+o+", "+a),"user"===o&&a?t.user(a).then(n):"item"===o&&a?t.items(a&&a).then(n):"kids"===o&&a?t.kids(a).then(n):"length"===o&&a?t.length(a).then(n):/top|new|best|ask|show|job/.test(o)?t.stories(o,{page:a||1}).then(n):void r(new Error("invalid type: "+o+", or params: "+a))})}}]),e}();t.default=f},,function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.init=void 0;var r=n(0),i=function(e){return e&&e.__esModule?e:{default:e}}(r),o=t.init=function(){function e(e,n){if(!e)throw new Error("hackernew() requires firebase app instance");return t||(t=new i.default(e,n)),t}var t=void 0;return e}();t.default={init:o}}])});
+
+/***/ }),
+/* 22 */
+/***/ (function(module, exports, __webpack_require__) {
+
 "use strict";
-/*! @license Firebase v4.1.2
-Build: rev-4a4cc92
+/*! @license Firebase v4.1.3
+Build: rev-1234895
 Terms: https://firebase.google.com/terms/ */
 
 
@@ -941,12 +942,12 @@ function patchProperty(obj, prop, value) {
 
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/*! @license Firebase v4.1.2
-Build: rev-4a4cc92
+/*! @license Firebase v4.1.3
+Build: rev-1234895
 Terms: https://firebase.google.com/terms/ */
 
 
@@ -1048,12 +1049,12 @@ var ErrorFactory = exports.ErrorFactory = function () {
 
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/*! @license Firebase v4.1.2
-Build: rev-4a4cc92
+/*! @license Firebase v4.1.3
+Build: rev-1234895
 Terms: https://firebase.google.com/terms/ */
 
 
@@ -1081,16 +1082,19 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 exports.createFirebaseNamespace = createFirebaseNamespace;
 
-var _subscribe = __webpack_require__(24);
+var _subscribe = __webpack_require__(25);
 
-var _errors = __webpack_require__(22);
+var _errors = __webpack_require__(23);
 
-var _shared_promise = __webpack_require__(7);
+var _shared_promise = __webpack_require__(8);
 
-var _deep_copy = __webpack_require__(21);
+var _deep_copy = __webpack_require__(22);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+var contains = function (obj, key) {
+    return Object.prototype.hasOwnProperty.call(obj, key);
+};
 var LocalPromise = _shared_promise.local.Promise;
 var DEFAULT_ENTRY_NAME = '[DEFAULT]';
 // An array to capture listeners before the true auth functions
@@ -1279,7 +1283,7 @@ function createFirebaseNamespace() {
                     error('bad-app-name', { 'name': name + '' });
                 }
             }
-            if (apps_[name] !== undefined) {
+            if (contains(apps_, name)) {
                 error('duplicate-app', { 'name': name });
             }
             var app = new FirebaseAppImpl(options, name, namespace);
@@ -1294,7 +1298,7 @@ function createFirebaseNamespace() {
         'app': app,
         'apps': null,
         'Promise': LocalPromise,
-        'SDK_VERSION': '4.1.2',
+        'SDK_VERSION': '4.1.3',
         'INTERNAL': {
             'registerService':
             /*
@@ -1397,11 +1401,10 @@ function createFirebaseNamespace() {
         get: getApps
     });function app(name) {
         name = name || DEFAULT_ENTRY_NAME;
-        var result = apps_[name];
-        if (result === undefined) {
+        if (!contains(apps_, name)) {
             error('no-app', { 'name': name });
         }
-        return result;
+        return apps_[name];
     }
     (0, _deep_copy.patchProperty)(app, 'App', FirebaseAppImpl);function getApps() {
         // Make a copy so caller cannot mutate the apps list.
@@ -1452,12 +1455,12 @@ var appErrors = new _errors.ErrorFactory('app', 'Firebase', errors);
 
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/*! @license Firebase v4.1.2
-Build: rev-4a4cc92
+/*! @license Firebase v4.1.3
+Build: rev-1234895
 Terms: https://firebase.google.com/terms/ */
 
 
@@ -1473,7 +1476,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 exports.createSubscribe = createSubscribe;
 exports.async = async;
 
-var _shared_promise = __webpack_require__(7);
+var _shared_promise = __webpack_require__(8);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -1737,11 +1740,11 @@ function noop() {
 
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/*! @license Firebase v4.1.2
-Build: rev-4a4cc92
+/*! @license Firebase v4.1.3
+Build: rev-1234895
 Terms: https://firebase.google.com/terms/
 
 ---
@@ -1768,7 +1771,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE. */
 
 (function() {
-            var firebase = __webpack_require__(6);
+            var firebase = __webpack_require__(7);
             var g,aa=this;function n(a){return void 0!==a}function ba(){}function ca(a){a.Vb=function(){return a.Ye?a.Ye:a.Ye=new a}}
 function da(a){var b=typeof a;if("object"==b)if(a){if(a instanceof Array)return"array";if(a instanceof Object)return b;var c=Object.prototype.toString.call(a);if("[object Window]"==c)return"object";if("[object Array]"==c||"number"==typeof a.length&&"undefined"!=typeof a.splice&&"undefined"!=typeof a.propertyIsEnumerable&&!a.propertyIsEnumerable("splice"))return"array";if("[object Function]"==c||"undefined"!=typeof a.call&&"undefined"!=typeof a.propertyIsEnumerable&&!a.propertyIsEnumerable("call"))return"function"}else return"null";
 else if("function"==b&&"undefined"==typeof a.call)return"object";return b}function ea(a){return"array"==da(a)}function fa(a){var b=da(a);return"array"==b||"object"==b&&"number"==typeof a.length}function p(a){return"string"==typeof a}function ga(a){return"number"==typeof a}function ha(a){return"function"==da(a)}function ia(a){var b=typeof a;return"object"==b&&null!=a||"function"==b}function ja(a,b,c){return a.call.apply(a.bind,arguments)}
@@ -2008,8 +2011,8 @@ d;return d.Ya},{Reference:U,Query:X,Database:Pg,enableLogging:Sb,INTERNAL:Z,TEST
 
 
 /***/ }),
-/* 26 */,
-/* 27 */
+/* 27 */,
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(setImmediate) {(function (root) {
@@ -2246,15 +2249,15 @@ d;return d.Ya},{Reference:U,Query:X,Database:Pg,enableLogging:Sb,INTERNAL:Z,TEST
 
 })(this);
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5).setImmediate))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6).setImmediate))
 
 /***/ }),
-/* 28 */,
 /* 29 */,
-/* 30 */
+/* 30 */,
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(9);
+module.exports = __webpack_require__(10);
 
 
 /***/ })

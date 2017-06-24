@@ -19,10 +19,6 @@ let Init = (fn = () => {}) => {
             .then(() => navigator.serviceWorker.ready)
             .then(registration => {
                 Log('ServiceWorker registrated and activated');
-                // registration.active.postMessage('init');
-                // setTimeout(() => {
-                //     fn()
-                // }, 10);
             })
             .catch(err => Log('ServiceWorker registration failed: ', err));
     }

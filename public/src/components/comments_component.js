@@ -1,3 +1,5 @@
+import Api from '../api';
+
 let CommentItem = {
     collapsed: true,
     toggle(e, vnode) {
@@ -34,33 +36,8 @@ let CommentItem = {
 }
 
 let CommentList = {
-    getKids(kids = [], i = 0) {
-        if (i >= kids.length) {
-            return;
-        }
-
-        let kid = kids[i];
-        return this.getItem(kid)
-            .then(kid => {
-                kids[i] = kid;
-                i++;
-                m.redraw();
-                this.getKids(kids, i);
-            });
-    },
-    getItem(id) {
-        if (typeof id === 'object') {
-            return Promise.resolve(id);
-        }
-        return m.request({
-            method: "GET",
-            url: `/hackernews/item/${id}`
-        }).then(item => {
-            return item[0] || item;
-        });
-    },
     oninit(vnode) {
-        this.getKids(vnode.attrs.kids);
+        Api.getKids(vnode.attrs.kids);
     },
     view(vnode) {
         return vnode.attrs.kids.map(kid => {

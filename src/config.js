@@ -12,6 +12,10 @@ let sections = [
     {title: 'Comments', section: 'comments'}
 ];
 
+let initialData = true;
+let initialDataAll = false;
+let initialHtml = false;
+
 /**
  * Mime types to set to the served files
  * @type {Object}
@@ -81,5 +85,8 @@ let mimeTypes = {
 
 export default {
     sections,
-    mimeTypes
+    mimeTypes,
+    initialData,
+    initialDataAll,
+    initialHtml
 };

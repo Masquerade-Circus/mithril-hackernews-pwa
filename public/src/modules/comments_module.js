@@ -1,19 +1,11 @@
 import Component from '../components';
+import Api from '../api';
 
 let CommentsModule = {
     comments: {},
     item: {},
-    getItem(id) {
-        return m.request({
-            method: "GET",
-            url: `/hackernews/item/${id}`
-        }).then(item => {
-            return item[0] || item;
-        });
-    },
-    oncreate(vnode) {
-        Promise.resolve()
-            .then(() => this.getItem(vnode.attrs.param))
+    oninit(vnode) {
+        Api.getItem(vnode.attrs.param)
             .then(item => this.item = item);
     },
     view(vnode) {

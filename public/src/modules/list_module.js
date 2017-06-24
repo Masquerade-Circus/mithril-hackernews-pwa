@@ -1,4 +1,5 @@
 import Component from '../components';
+import Api from '../api';
 
 let ListModule = {
     elements: [],
@@ -16,11 +17,8 @@ let ListModule = {
         this.pagination.current = parseInt(vnode.attrs.param) || 1;
         this.pagination.next = this.pagination.current + 1;
         this.pagination.prev = this.pagination.current - 1;
-        m.request({
-            method: "GET",
-            url: `/hackernews/${this.section}/${this.pagination.current}`
-        })
-        .then(elements => this.elements = elements);
+        Api.fetch(this.section, this.pagination.current)
+            .then(elements => this.elements = elements);
     },
     view(vnode) {
         return [
