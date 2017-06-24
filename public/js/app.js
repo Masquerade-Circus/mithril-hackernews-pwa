@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 30);
+/******/ 	return __webpack_require__(__webpack_require__.s = 31);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -205,12 +205,17 @@ var _list_item_component = __webpack_require__(13);
 
 var _list_item_component2 = _interopRequireDefault(_list_item_component);
 
+var _logo_component = __webpack_require__(14);
+
+var _logo_component2 = _interopRequireDefault(_logo_component);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
     comments: _comments_component2.default,
     credits: _credits_component2.default,
-    listItem: _list_item_component2.default
+    listItem: _list_item_component2.default,
+    logo: _logo_component2.default
 };
 
 /***/ }),
@@ -664,15 +669,15 @@ exports.clearImmediate = clearImmediate;
 "use strict";
 
 
-var _init = __webpack_require__(15);
+var _init = __webpack_require__(16);
 
 var _init2 = _interopRequireDefault(_init);
 
-var _helpers = __webpack_require__(14);
+var _helpers = __webpack_require__(15);
 
 var _helpers2 = _interopRequireDefault(_helpers);
 
-var _modules = __webpack_require__(17);
+var _modules = __webpack_require__(18);
 
 var _modules2 = _interopRequireDefault(_modules);
 
@@ -830,6 +835,24 @@ exports.default = listItem;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+// Mithril logo in mithril.
+
+exports.default = {
+    view: function view() {
+        return [m("svg[id='Capa_1'][version='1.1'][viewBox='0 0 38.044 38.044'][x='0px'][xml:space='preserve'][xmlns='http://www.w3.org/2000/svg'][xmlns:xlink='http://www.w3.org/1999/xlink'][y='0px']", { style: { "enable-background": "new 0 0 38.044 38.044" } }, [m("g", [m("g", [m("path[d='M31.716,13.5C31.699,6.47,25.974,0.755,18.94,0.755c-7.045,0-12.777,5.732-12.777,12.777\t\t\tc0,0.022,0.004,0.043,0.004,0.065C2.477,15.84,0,19.887,0,24.511c0,7.046,5.731,12.777,12.777,12.777\t\t\tc2.268,0,4.395-0.601,6.244-1.642c1.849,1.041,3.977,1.642,6.245,1.642c7.046,0,12.777-5.732,12.777-12.777\t\t\tC38.043,19.82,35.495,15.722,31.716,13.5z M19.021,32.961c-2.312-1.713-3.906-4.341-4.22-7.352c1.3,0.448,2.689,0.702,4.139,0.702\t\t\tc1.514,0,2.96-0.278,4.307-0.764C22.949,28.584,21.349,31.236,19.021,32.961z M8.517,14.898c1.303-0.579,2.743-0.909,4.26-0.909\t\t\tc1.475,0,2.879,0.307,4.154,0.858c-2.114,1.826-3.629,4.325-4.195,7.167C10.473,20.352,8.898,17.814,8.517,14.898z M18.94,24.055\t\t\tc-1.457,0-2.846-0.298-4.109-0.837c0.361-2.928,1.929-5.482,4.19-7.157c2.243,1.662,3.802,4.187,4.18,7.085\t\t\tC21.897,23.727,20.457,24.055,18.94,24.055z M21.111,14.846c1.275-0.55,2.679-0.858,4.154-0.858c1.457,0,2.846,0.298,4.11,0.837\t\t\tc-0.356,2.885-1.883,5.404-4.089,7.082C24.704,19.108,23.199,16.65,21.111,14.846z M18.94,3.01c5.432,0,9.915,4.137,10.466,9.425\t\t\tc-1.3-0.447-2.689-0.702-4.14-0.702c-2.268,0-4.396,0.601-6.245,1.642c-1.848-1.041-3.975-1.642-6.244-1.642\t\t\tc-1.514,0-2.96,0.278-4.307,0.763C8.993,7.179,13.488,3.01,18.94,3.01z M12.777,35.034c-5.803,0-10.523-4.72-10.523-10.523\t\t\tc0-3.418,1.645-6.451,4.177-8.375c0.744,3.581,2.999,6.607,6.059,8.408c0.011,3.847,1.735,7.293,4.442,9.631\t\t\tC15.656,34.727,14.253,35.034,12.777,35.034z M25.266,35.034c-1.475,0-2.879-0.307-4.154-0.858\t\t\tc2.715-2.345,4.444-5.804,4.444-9.664c0-0.022-0.004-0.044-0.004-0.065c3.007-1.829,5.209-4.852,5.918-8.416\t\t\tc2.613,1.917,4.319,4.999,4.319,8.48C35.788,30.313,31.068,35.034,25.266,35.034z']")])])])];
+    }
+};
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 /**
  * Helper fuction to call when device or dom are ready
  * @method Ready
@@ -857,7 +880,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -867,11 +890,11 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _mithril = __webpack_require__(27);
+var _mithril = __webpack_require__(28);
 
 var _mithril2 = _interopRequireDefault(_mithril);
 
-var _timeago = __webpack_require__(29);
+var _timeago = __webpack_require__(30);
 
 var _timeago2 = _interopRequireDefault(_timeago);
 
@@ -909,7 +932,7 @@ var Init = function Init() {
 exports.default = Init;
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -949,7 +972,7 @@ var CommentsModule = {
 exports.default = CommentsModule;
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -959,19 +982,19 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _layout_module = __webpack_require__(18);
+var _layout_module = __webpack_require__(19);
 
 var _layout_module2 = _interopRequireDefault(_layout_module);
 
-var _list_module = __webpack_require__(19);
+var _list_module = __webpack_require__(20);
 
 var _list_module2 = _interopRequireDefault(_list_module);
 
-var _user_module = __webpack_require__(20);
+var _user_module = __webpack_require__(21);
 
 var _user_module2 = _interopRequireDefault(_user_module);
 
-var _comments_module = __webpack_require__(16);
+var _comments_module = __webpack_require__(17);
 
 var _comments_module2 = _interopRequireDefault(_comments_module);
 
@@ -985,7 +1008,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -999,6 +1022,10 @@ var _config = __webpack_require__(0);
 
 var _config2 = _interopRequireDefault(_config);
 
+var _components = __webpack_require__(3);
+
+var _components2 = _interopRequireDefault(_components);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Layout = {
@@ -1007,7 +1034,9 @@ var Layout = {
         this.nav = _config2.default.sections;
     },
     view: function view(vnode) {
-        return [m('header', [m('img.icon-logo[src="./images/logo-48x48.png"][alt="Mithril"]'), m('nav', _config2.default.sections.map(function (item) {
+        return [m('header', [
+        //m('img.icon-logo[src="./images/logo-48x48.png"][alt="Mithril"]'),
+        m('.icon-logo', m(_components2.default.logo)), m('nav', _config2.default.sections.map(function (item) {
             return m('a[data-button]', { href: '/' + item.section, oncreate: m.route.link }, item.title);
         }))]), vnode.children];
     }
@@ -1016,7 +1045,7 @@ var Layout = {
 exports.default = Layout;
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1072,7 +1101,7 @@ var ListModule = {
 exports.default = ListModule;
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1111,13 +1140,13 @@ var UserModule = {
 exports.default = UserModule;
 
 /***/ }),
-/* 21 */,
 /* 22 */,
 /* 23 */,
 /* 24 */,
 /* 25 */,
 /* 26 */,
-/* 27 */
+/* 27 */,
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(setImmediate, global) {;(function() {
@@ -2350,14 +2379,14 @@ else window.m = m
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6).setImmediate, __webpack_require__(1)))
 
 /***/ }),
-/* 28 */,
-/* 29 */
+/* 29 */,
+/* 30 */
 /***/ (function(module, exports) {
 
 !function(t,e){"object"==typeof module&&module.exports?(module.exports=e(),module.exports.default=module.exports):t.timeago=e()}("undefined"!=typeof window?window:this,function(){function t(t){return t instanceof Date?t:isNaN(t)?/^\d+$/.test(t)?new Date(e(t)):(t=(t||"").trim().replace(/\.\d+/,"").replace(/-/,"/").replace(/-/,"/").replace(/(\d)T(\d)/,"$1 $2").replace(/Z/," UTC").replace(/([\+\-]\d\d)\:?(\d\d)/," $1$2"),new Date(t)):new Date(e(t))}function e(t){return parseInt(t)}function n(t,n,r){n=l[n]?n:l[r]?r:"en";for(var o=0,i=t<0?1:0,a=t=Math.abs(t);t>=p[o]&&o<h;o++)t/=p[o];return t=e(t),o*=2,t>(0===o?9:1)&&(o+=1),l[n](t,o,a)[i].replace("%s",t)}function r(e,n){return((n=n?t(n):new Date)-t(e))/1e3}function o(t){for(var e=1,n=0,r=Math.abs(t);t>=p[n]&&n<h;n++)t/=p[n],e*=p[n];return r%=e,r=r?e-r:e,Math.ceil(r)}function i(t){return a(t,"data-timeago")||a(t,"datetime")}function a(t,e){return t.getAttribute?t.getAttribute(e):t.attr?t.attr(e):void 0}function u(t,e){return t.setAttribute?t.setAttribute(m,e):t.attr?t.attr(m,e):void 0}function c(t,e){this.nowDate=t,this.defaultLocale=e||"en"}function d(t,e){return new c(t,e)}var f="second_minute_hour_day_week_month_year".split("_"),s="秒_分钟_小时_天_周_月_年".split("_"),l={en:function(t,e){if(0===e)return["just now","right now"];var n=f[parseInt(e/2)];return t>1&&(n+="s"),[t+" "+n+" ago","in "+t+" "+n]},zh_CN:function(t,e){if(0===e)return["刚刚","片刻后"];var n=s[parseInt(e/2)];return[t+n+"前",t+n+"后"]}},p=[60,60,24,7,365/7/12,12],h=6,m="data-tid",w={};return c.prototype.doRender=function(t,e,i){var a,c=r(e,this.nowDate),d=this;t.innerHTML=n(c,i,this.defaultLocale),w[a=setTimeout(function(){d.doRender(t,e,i),delete w[a]},Math.min(1e3*o(c),2147483647))]=0,u(t,a)},c.prototype.format=function(t,e){return n(r(t,this.nowDate),e,this.defaultLocale)},c.prototype.render=function(t,e){void 0===t.length&&(t=[t]);for(var n=0,r=t.length;n<r;n++)this.doRender(t[n],i(t[n]),e)},c.prototype.setLocale=function(t){this.defaultLocale=t},d.register=function(t,e){l[t]=e},d.cancel=function(t){var e;if(t)(e=a(t,m))&&(clearTimeout(e),delete w[e]);else{for(e in w)clearTimeout(e);w={}}},d});
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(9);
