@@ -3,6 +3,13 @@ import Helper from './helpers';
 
 import Module from './modules';
 import config from './config';
+import Api from './api';
+
+// When service worker is fully activated
+Init(() => {
+    // Request base url to always have the new content cached
+    Api.catchBaseUrl();
+})
 
 // Helper function to add list routes
 let routeFactory = item => {
@@ -41,12 +48,6 @@ config.sections.map(item => {
 
 // Add the default route
 Routes[`/`] = routeFactory(config.sections[0]);
-Helper.Ready(() => {
-    let bodyElement = window.document.body || window.document.getElementsByTagName('body')[0];
-    m.route(bodyElement, '/', Routes);
-});
 
-// When dom ready and service worker activated attach mithril to the dom
-Init(() => {
-    console.log('Service worker init');
-});
+let bodyElement = window.document.body || window.document.getElementsByTagName('body')[0];
+m.route(bodyElement, '/', Routes);

@@ -10,8 +10,12 @@ let listItem = {
                     m('a', {href: `/user/${vnode.attrs.by}`, oncreate: m.route.link}, vnode.attrs.by),
                     ' ',
                     timeago().format(vnode.attrs.time * 1000),
-                    ' | ',
-                    m('a', {href: `/comments/${vnode.attrs.id}`, oncreate: m.route.link}, `${vnode.attrs.descendants} comments`)
+                    vnode.attrs.descendants !== undefined ?
+                        ' | ' :
+                        '',
+                    vnode.attrs.descendants !== undefined ?
+                        m('a', {href: `/comments/${vnode.attrs.id}`, oncreate: m.route.link}, `${vnode.attrs.descendants} comments`) :
+                        ''
                 ])
             ])
         ]));

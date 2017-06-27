@@ -7,8 +7,7 @@ let sections = [
 ];
 
 let urlsToCache = [
-    '/hackernews/top/1',
-    // '/images/logo-48x48.png',
+    '/hackernews/top/1'
     // '/images/icons/favicon.ico',
     // '/images/icons/favicon-32x32.png',
     // '/images/icons/favicon-16x16.png'

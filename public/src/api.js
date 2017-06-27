@@ -1,15 +1,15 @@
 let api = {
-    fetch(section,param = 1){
+    fetch(section,param = 1) {
         return m.request({
             method: "GET",
             url: `/hackernews/${section}/${param}`
         });
     },
-    getItem(id){
+    getItem(id) {
         if (typeof id === 'object') {
             return Promise.resolve(id);
         }
-        
+
         return m.request({
             method: "GET",
             url: `/hackernews/item/${id}`
@@ -31,6 +31,18 @@ let api = {
                 api.getKids(kids, i);
             });
     },
+    catchBaseUrl() {
+        let loc = window.location;
+        m.request({
+            method: "GET",
+            url:   `${loc.protocol}//${loc.hostname}${loc.port ? ':' + loc.port : ''}`,
+            headers: {
+                "Content-Type": "text/html",
+                "Accept": "text/html"
+            },
+            deserialize: value => value
+        });
+    }
 };
 
 export default api;

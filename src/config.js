@@ -14,7 +14,7 @@ let sections = [
 
 let initialData = true;
 let initialDataAll = false;
-let initialHtml = false;
+let initialHtml = true;
 
 /**
  * Mime types to set to the served files

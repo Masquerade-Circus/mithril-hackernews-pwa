@@ -12,13 +12,17 @@ let ListModule = {
     section: 'top',
     oninit(vnode) {
         this.section = vnode.attrs.section.toLowerCase();
-        this.elements = initialData[this.section];
+        if (!window.Ready) {
+            this.elements = initialData[this.section];
+        }
         this.pagination.show = vnode.attrs.paginated || false;
         this.pagination.current = parseInt(vnode.attrs.param) || 1;
         this.pagination.next = this.pagination.current + 1;
         this.pagination.prev = this.pagination.current - 1;
-        Api.fetch(this.section, this.pagination.current)
-            .then(elements => this.elements = elements);
+        if (window.Ready) {
+            Api.fetch(this.section, this.pagination.current)
+                .then(elements => this.elements = elements);
+        }
     },
     view(vnode) {
         return [

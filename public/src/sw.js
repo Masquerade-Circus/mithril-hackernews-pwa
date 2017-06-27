@@ -1,6 +1,6 @@
-import firebase from 'firebase/app';
-import 'firebase/database';
-import Hackernews from 'firebase-hackernews/dist/firebase-hackernews.js';
+// import firebase from 'firebase/app';
+// import 'firebase/database';
+// import Hackernews from 'firebase-hackernews/dist/firebase-hackernews.js';
 import config from './config';
 
 let Log = config.Log;
@@ -23,7 +23,7 @@ let sendMessage = message => {
     })
 };
 
-let hackernews = Hackernews.init(firebase, config.hnOptions);
+// let hackernews = Hackernews.init(firebase, config.hnOptions);
 
 // Function to add the network response to the cache
 let fetchedFromNetwork = event => response => {
@@ -62,16 +62,16 @@ self.addEventListener("fetch", event => {
         return;
     }
 
-    // If the url starts with hackernews fetch from the hn webservice
-    if (url.pathname.startsWith('/hackernews/')) {
-        Log((`hn:sw: start hooking of fetch, ${url}`));
-        return event.respondWith(hackernews.fetch(url.pathname).then(data => {
-            Log((`hn:sw: end hooking of fetch`));
-            return new Response(JSON.stringify(data), {
-                headers: {'Content-Type': 'application/json'}
-            });
-        }));
-    }
+    // // If the url starts with hackernews fetch from the hn webservice
+    // if (url.pathname.startsWith('/hackernews/')) {
+    //     Log((`hn:sw: start hooking of fetch, ${url}`));
+    //     return event.respondWith(hackernews.fetch(url.pathname).then(data => {
+    //         Log((`hn:sw: end hooking of fetch`));
+    //         return new Response(JSON.stringify(data), {
+    //             headers: {'Content-Type': 'application/json'}
+    //         });
+    //     }));
+    // }
 
     Log('WORKER: fetchevent for ' + url);
 
@@ -79,13 +79,14 @@ self.addEventListener("fetch", event => {
         caches.match(event.request).then(cached => {
             Log('WORKER: fetch event', cached ? '(cached)' : '(network)', event.request.url);
 
-            if (cached !== undefined) {
-                return cached;
-            }
-
-            return fetch(event.request)
+            let network = fetch(event.request)
                 .then(fetchedFromNetwork(event), unableToResolve)
-                .catch(error => caches.match('/'));
+                .catch(error => {
+                    console.log(error);
+                    return caches.match('/');
+                });
+
+            return cached || network;
         })
     );
 });
