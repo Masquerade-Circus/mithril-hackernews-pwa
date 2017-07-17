@@ -83,7 +83,7 @@ let mimeTypes = {
     "7z": "application/x-7z-compressed"
 };
 
-export default {
+module.exports = {
     sections,
     mimeTypes,
     initialData,

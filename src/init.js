@@ -1,5 +1,5 @@
-import Router from 'microrouter';
-import micro from 'micro';
+let Router = require('microrouter'),
+    micro = require('micro');
 
 /**
  * Export Router as global

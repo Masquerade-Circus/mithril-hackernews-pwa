@@ -1,7 +1,7 @@
-import compress from 'micro-compress';
-import fs from 'fs';
+let compression = require('compression'),
+    fs = require('fs'),
+    config = require('./config.js');
 
-import config from './config.js';
 /**
  * Function to catch errors
  * @method errorHandler
@@ -25,7 +25,10 @@ let errorHandler = fn => (req, res) => {
  * @param  {Function} fn    The handler function
  * @return {Function}       The main handler function
  */
-let routeHandler = fn => errorHandler(compress((req, res) => fn(req, res)));
+let routeHandler = fn => errorHandler(async (req, res) => {
+    new Promise(next => compression()(req, res, next));
+    return await fn(req, res);
+});
 
 /**
  * Helper functio to serve a file from the file system
@@ -124,7 +127,7 @@ let render = (res, html) => {
 /**
  * Expor default object with all the helpers
  */
-export default {
+module.exports = {
     serveFile,
     errorHandler,
     serveDir,

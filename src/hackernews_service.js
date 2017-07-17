@@ -1,6 +1,6 @@
-import firebase from 'firebase';
-import Hackernews from 'firebase-hackernews';
-import config from './config';
+let firebase = require('firebase'),
+    Hackernews = require('firebase-hackernews'),
+    config = require('./config');
 
 let hnservice = Hackernews.init(firebase);
 
@@ -10,4 +10,4 @@ Service.fetch = (path) => hnservice.fetch(path);
 
 Service.handler = section => (req, res) => Service.fetch(`/hackernews/${section}/${req.params.param || 1}`).then(JSON.stringify);
 
-export default Service;
+module.exports = Service;

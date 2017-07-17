@@ -1,8 +1,8 @@
-import './init';
-import Helper from './helpers';
-import config from './config';
-import HNService from './hackernews_service';
-import timeago from 'timeago.js';
+require('./init');
+let Helper = require('./helpers'),
+    config = require('./config'),
+    HNService = require('./hackernews_service'),
+    timeago = require('timeago.js');
 
 /**
  * Get the default options with the js, css and links view loaded
@@ -32,6 +32,7 @@ let getSectionList = async (req, section, upDir = '.') => {
         ask: [],
         job: []
     };
+
     if (config.initialData) {
         if (config.initialDataAll) {
             initialData.top = await HNService.fetch(`/hackernews/top/1`);

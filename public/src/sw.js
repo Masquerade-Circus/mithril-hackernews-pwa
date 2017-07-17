@@ -110,14 +110,8 @@ self.addEventListener("install", event => {
     event.waitUntil(
         // We can't use cache.add() here, since we want OFFLINE_URL to be the cache key, but
         // the actual URL we end up requesting might include a cache-busting parameter.
-        fetch(createCacheBustedRequest('/'))
-            .then(response => {
-                return caches.open(config.cacheVersion + config.cacheName)
-                    .then(cache => {
-                        return cache.put('/', response)
-                            .then(() =>  cache.addAll(config.urlsToCache));
-                    });
-            })
+        caches.open(config.cacheVersion + config.cacheName)
+            .then(cache => cache.addAll(config.urlsToCache))
             .catch(error => console.error('WORKER: Failed to cache', error))
     );
 });
