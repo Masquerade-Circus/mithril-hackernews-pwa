@@ -8,7 +8,7 @@ window.timeago = timeago;
 window.Log = config.Log;
 
 let Init = (fn = () => {}) => {
-    navigator.serviceWorker.register('{{upDir}}/sw.js', {scope: '{{upDir}}/'})
+    navigator.serviceWorker.register('/sw.js', {scope: '/'})
         .then(() => navigator.serviceWorker.ready)
         .then(registration => {
             window.Ready = true;

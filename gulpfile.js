@@ -23,9 +23,10 @@ gulp.task('connect', () => {
     browserSync.init({
         proxy: '127.0.0.1:3000',
         open: false,
-        port: 8000,
+        port: 3010,
         injectChanges: true,
-        codeSync: true
+        codeSync: true,
+        ui: false
     });
 });
 
@@ -34,7 +35,7 @@ gulp.task('nodemon', (done) => {
     let stream = nodemon({
         nodemon: require('nodemon'),
         script: 'index.js',
-        watch: ['./src', './public/js', './public/css', './public/images']
+        watch: ['src', 'public/js', 'public/css/app.css', 'public/images']
     });
 
     stream.on('start', () => {

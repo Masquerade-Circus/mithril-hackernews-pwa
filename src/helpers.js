@@ -88,10 +88,11 @@ let loadView = (filePath, data) => {
              * @return {String}           Contents parsed
              */
             let template = (data = {}) => {
+                let c = contents;
                 for (let i in data) {
-                    contents = contents.replace(new RegExp("{{(" + i + ")}}", "g"), (data[i] || ''));
+                    c = c.replace(new RegExp("{{(" + i + ")}}", "g"), (data[i] || ''));
                 }
-                return contents;
+                return c;
             };
 
             // If data object is passed, return the contents parsed

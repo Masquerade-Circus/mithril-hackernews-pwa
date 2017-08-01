@@ -3,7 +3,7 @@ let listItem = {
         return m('li', m('span[tabindex="-1"]', [
             m('span.icon-counter[data-font="primary"]', vnode.attrs.score),
             m('span', [
-                m('small', m('a[target="_blank"][rel="noopener"]', {href: vnode.attrs.url}, vnode.attrs.title)),
+                m('a[target="_blank"][rel="noopener"]', {href: vnode.attrs.url}, vnode.attrs.title),
                 m('br'),
                 m('small', [
                     'by ',

@@ -7,9 +7,6 @@
     height: 56rem;
     padding: 12rem;
 
-[data-list]>li>:first-child>[class*=icon]
-    font-size: 12rem;
-
 body>header>nav
     justify-content: left;
 
@@ -67,9 +64,6 @@ footer>h1
     padding: 16rem;
     font-size: 14rem;
 
-small
-    opacity: 1;
-
 @media only screen and (max-width: 375px) {
     nav>a, nav>a[data-button] {
         padding: 12rem 10rem;
@@ -81,3 +75,26 @@ small
     display: block;
     margin-right: 8rem;
     flex: none;
+    font-size: 14rem;
+    margin-left: -8rem;
+
+article
+    &>section[data-card]
+        max-width: 840rem;
+
+[data-list]>li>*
+    font-size: 14rem;
+
+[data-list]>li small
+    font-size: 0.8em;
+    opacity: 1;
+    padding: 0;
+
+[data-list]>li>span>span>a
+    max-height: 32rem;
+    overflow: hidden;
+
+body>header:nth-child(2)>nav
+    justify-content: center;
+a[data-button][disabled]
+    opacity: 0.6;

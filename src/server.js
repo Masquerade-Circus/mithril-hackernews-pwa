@@ -23,14 +23,16 @@ Promise.resolve()
 // Generate the index template
 let indexTemplate = () => {};
 Helper.loadView('./src/views/index.html').then(template => indexTemplate = template);
+let listItemTemplate = () => {};
+Helper.loadView('./src/views/list_item.html').then(template => listItemTemplate = template);
 
 let getSectionList = async (req, section, upDir = '.') => {
     let initialData = {
-        top: [],
-        new: [],
-        show: [],
-        ask: [],
-        job: []
+        top: {items: [], total: 1},
+        new: {items: [], total: 1},
+        show: {items: [], total: 1},
+        ask: {items: [], total: 1},
+        job: {items: [], total: 1}
     };
 
     if (config.initialData) {
@@ -50,13 +52,15 @@ let getSectionList = async (req, section, upDir = '.') => {
     let options = {upDir: upDir, list: '', initialData: JSON.stringify(initialData)};
 
     if (config.initialHtml) {
-        let template = await Helper.loadView('./src/views/list_item.html');
+        let html = '',
+            i = 0,
+            length = initialData[section].items.length;
 
-        let html = '';
-        initialData[section].map(item => {
-            item.time = timeago().format(item.time * 1000);
-            html += template(item);
-        });
+        for (; i < length; i++) {
+            initialData[section].items[i].time = timeago().format(initialData[section].items[i].time * 1000);
+            html += listItemTemplate(initialData[section].items[i]);
+        }
+
         options.list = html;
     }
 
@@ -85,10 +89,12 @@ let routes = [
 
 // We get all the sections from the config file and add them as routes serving the index view
 config.sections.map(item => {
-    routes.unshift(Router.get(`/${item.section}/:param`, Helper.routeHandler(async (req, res) => Helper.render(res, getSectionList(req, item.section, {upDir: '..'})))));
-    routes.unshift(Router.get(`/${item.section}`, Helper.routeHandler(async (req, res) => Helper.render(res, getSectionList(req, item.section)))));
+    routes.unshift(Router.get(`/${item.section}/:param`, Helper.routeHandler((req, res) => Helper.render(res, getSectionList(req, item.section, {upDir: '..'})))));
+    routes.unshift(Router.get(`/${item.section}`, Helper.routeHandler((req, res) => Helper.render(res, getSectionList(req, item.section)))));
     routes.unshift(Router.get(`/hackernews/${item.section}(/:param)`, Helper.routeHandler(HNService.handler(item.section))));
 });
+
+routes.unshift(Router.get(`/hackernews/item/:param`, Helper.routeHandler(HNService.handler('item'))));
 
 let server = micro(Router.router.apply(micro, routes));
 

@@ -7,13 +7,15 @@ let ListModule = {
         show: false,
         current : 1,
         next: 2,
-        prev: 0
+        prev: 0,
+        total: 1
     },
     section: 'top',
     oninit(vnode) {
         this.section = vnode.attrs.section.toLowerCase();
         if (!window.Ready) {
-            this.elements = initialData[this.section];
+            this.elements = initialData[this.section].items;
+            this.pagination.total = initialData[this.section].total;
         }
         this.pagination.show = vnode.attrs.paginated || false;
         this.pagination.current = parseInt(vnode.attrs.param) || 1;
@@ -21,11 +23,31 @@ let ListModule = {
         this.pagination.prev = this.pagination.current - 1;
         if (window.Ready) {
             Api.fetch(this.section, this.pagination.current)
-                .then(elements => this.elements = elements);
+                .then(response => {
+                    this.elements = response.items;
+                    this.pagination.total = response.total;
+                });
         }
     },
     view(vnode) {
         return [
+            m('header', [
+                this.pagination.show ?
+                    m('nav', [
+                        this.pagination.prev > 0 ?
+                            m('a[data-button]', {
+                                href: `/${this.section}` + (this.pagination.prev > 1 ? `/${this.pagination.prev}` : ''),
+                                oncreate: m.route.link
+                            }, '< prev') :
+                            m('a[data-button][disabled]', '< prev'),
+                        m('span', this.pagination.current),
+                        ' / ',
+                        m('span', this.pagination.total),
+                        this.elements.length === 30 ?
+                            m('a[data-button]', {href: `/${this.section}/${this.pagination.next}`, oncreate: m.route.link}, 'next >') :
+                            m('a[data-button][disabled]', 'next >')
+                    ]) : ''
+            ]),
             m('article', [
                 m('section[data-card="full-width"]', [
                     m('section', [
@@ -37,20 +59,7 @@ let ListModule = {
                 ])
             ]),
             m('footer', [
-                m(Component.credits),
-                this.pagination.show ?
-                    m('nav', [
-                        this.pagination.prev > 0 ?
-                            m('a[data-button]', {
-                                href: `/${this.section}` + (this.pagination.prev > 1 ? `/${this.pagination.prev}` : ''),
-                                oncreate: m.route.link
-                            }, this.pagination.prev) :
-                            '',
-                        m('span[data-button]', this.pagination.current),
-                        this.elements.length === 30 ?
-                            m('a[data-button]', {href: `/${this.section}/${this.pagination.next}`, oncreate: m.route.link}, this.pagination.next) :
-                            ''
-                    ]) : ''
+                m(Component.credits)
             ])
         ];
     }
