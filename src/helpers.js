@@ -1,37 +1,8 @@
-let compression = require('compression'),
-    fs = require('fs'),
+let fs = require('fs'),
     config = require('./config.js');
 
 /**
- * Function to catch errors
- * @method errorHandler
- * @param  {Function}   fn  The handler function
- * @return {Promise}
- */
-let errorHandler = fn => (req, res) => {
-    // Uses promise resolve to convert any static function to a promise
-    return Promise.resolve(fn(req, res)).catch(err => {
-        if (err.code !== undefined && err.code === "ENOENT") {
-            return micro.send(res, 404);
-        }
-        console.log(err.stack);
-        micro.sendError(req, res, err);
-    });
-};
-
-/**
- * Main route handler, it attach the compress and errorHandler to all routes
- * @method routeHandler
- * @param  {Function} fn    The handler function
- * @return {Function}       The main handler function
- */
-let routeHandler = fn => errorHandler(async (req, res) => {
-    new Promise(next => compression()(req, res, next));
-    return await fn(req, res);
-});
-
-/**
- * Helper functio to serve a file from the file system
+ * Helper function to serve a file from the file system
  * @method serveFile
  * @param  {Object}  res        Response object
  * @param  {String}  filePath   Path of the file to serve
@@ -58,14 +29,6 @@ let serveFile = (res, filePath) => {
         });
     });
 };
-
-/**
- * Helper function to serve a full directory form the file system
- * @method serveDir
- * @param  {String} path    The directory path
- * @return {Function}       The main handler
- */
-let serveDir = path => routeHandler((req, res) => serveFile(res, path + (Array.isArray(req.params._) ? req.params._.pop() : req.params._)));
 
 /**
  * Helper function to load a view and replace a list of vars in it as a simple template engine
@@ -130,9 +93,6 @@ let render = (res, html) => {
  */
 module.exports = {
     serveFile,
-    errorHandler,
-    serveDir,
-    routeHandler,
     loadView,
     render
 };

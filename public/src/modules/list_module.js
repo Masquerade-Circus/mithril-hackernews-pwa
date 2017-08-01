@@ -14,8 +14,8 @@ let ListModule = {
     oninit(vnode) {
         this.section = vnode.attrs.section.toLowerCase();
         if (!window.Ready) {
-            this.elements = initialData[this.section].items;
-            this.pagination.total = initialData[this.section].total;
+            this.elements = initialData[this.section].items || [];
+            this.pagination.total = initialData[this.section].total || 1;
         }
         this.pagination.show = vnode.attrs.paginated || false;
         this.pagination.current = parseInt(vnode.attrs.param) || 1;
@@ -37,15 +37,22 @@ let ListModule = {
                         this.pagination.prev > 0 ?
                             m('a[data-button]', {
                                 href: `/${this.section}` + (this.pagination.prev > 1 ? `/${this.pagination.prev}` : ''),
-                                oncreate: m.route.link
+                                key: `/${this.section}` + (this.pagination.prev > 1 ? `/${this.pagination.prev}` : ''),
+                                oncreate: m.route.link,
+                                onupdate: m.route.link
                             }, '< prev') :
-                            m('a[data-button][disabled]', '< prev'),
+                            m('a[data-button][disabled]', {onclick: e => e.preventDefault()}, '< prev'),
                         m('span', this.pagination.current),
                         ' / ',
                         m('span', this.pagination.total),
                         this.elements.length === 30 ?
-                            m('a[data-button]', {href: `/${this.section}/${this.pagination.next}`, oncreate: m.route.link}, 'next >') :
-                            m('a[data-button][disabled]', 'next >')
+                            m('a[data-button]', {
+                                href: `/${this.section}/${this.pagination.next}`,
+                                key: `/${this.section}/${this.pagination.next}`,
+                                oncreate: m.route.link,
+                                onupdate: m.route.link
+                            }, 'next >') :
+                            m('a[data-button][disabled]', {onclick: e => e.preventDefault()}, 'next >')
                     ]) : ''
             ]),
             m('article', [
