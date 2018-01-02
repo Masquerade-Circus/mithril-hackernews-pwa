@@ -7,14 +7,13 @@ let sections = [
 ];
 
 let urlsToCache = [
+    '/',
     '/hackernews/top/1'
-    // '/images/icons/favicon.ico',
-    // '/images/icons/favicon-32x32.png',
-    // '/images/icons/favicon-16x16.png'
 ];
 
 let cacheName = 'hn-mithril';
 let cacheVersion = "v1::";
+let initialData = true;
 
 /**
  * Log function, you can set to console.log for debugging process
@@ -31,5 +30,6 @@ export default {
     cacheName,
     cacheVersion,
     Log,
-    hnOptions
+    hnOptions,
+    initialData
 };

@@ -36,7 +36,7 @@ let mimeTypes = {
     epub: "application/epub+zip",
     gif: "image/gif",
     htm: "text/html",
-    html: "text/html",
+    html: "text/html; charset=utf-8",
     ico: "image/x-icon",
     ics: "text/calendar",
     jar: "application/java-archive",

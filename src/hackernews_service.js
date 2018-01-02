@@ -24,6 +24,6 @@ Service.fetch = async (path) => {
     return result;
 };
 
-Service.handler = section => (req, res) => Service.fetch(`/hackernews/${section}/${req.params.param || 1}`);
+Service.handler = section => async (req, res) => await Service.fetch(`/hackernews/${section}/${req.params.param || 1}`);
 
 module.exports = Service;

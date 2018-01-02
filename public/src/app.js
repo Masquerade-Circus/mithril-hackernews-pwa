@@ -4,12 +4,10 @@ import Helper from './helpers';
 import Module from './modules';
 import config from './config';
 import Api from './api';
+window.config = config;
 
-// When service worker is fully activated
-Init(() => {
-    // Request base url to always have the new content cached
-    Api.catchBaseUrl();
-})
+// Activate service worker
+Init();
 
 // Helper function to add list routes
 let routeFactory = item => {

@@ -37,7 +37,7 @@ let CommentItem = {
 
 let CommentList = {
     oninit(vnode) {
-        Api.getKids(vnode.attrs.kids);
+        return Api.getKids(vnode.attrs.kids);
     },
     view(vnode) {
         return vnode.attrs.kids.map(kid => {

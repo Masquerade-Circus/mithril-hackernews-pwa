@@ -154,9 +154,14 @@ gulp.task('build-icons', (done) => {
         }
 
         let html = '';
+
         for (let i in response.html) {
-            html += response.html[i] + '\n';
+            html += response.html[i];
         }
+
+        html += '<link rel="shortcut icon" sizes="';
+        html += config.favicons.defaultFavicon.size + 'x' + config.favicons.defaultFavicon.size + '"';
+        html += ' href="' + config.favicons.defaultFavicon.fileName + '">';
 
         fs.writeFile(config.favicons.linksViewPath + 'links.html', html, errorHandler);
 

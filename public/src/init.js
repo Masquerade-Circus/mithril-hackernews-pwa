@@ -1,9 +1,9 @@
-import m from 'mithril/mithril.min.js';
+import {route, request, redraw} from 'mithril/mithril.min.js';
 import timeago from 'timeago.js';
 import config from './config';
 
-window.m = m;
-m.route.prefix('');
+window.m = {route, request, redraw};
+// m.route.prefix(''); // Uncoment this for push state navigation
 window.timeago = timeago;
 window.Log = config.Log;
 

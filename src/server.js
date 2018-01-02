@@ -4,7 +4,11 @@ let micro = require('micro'),
     HNService = require('./hackernews_service'),
     MicroExRouter = require('micro-ex-router'),
     compression = require('compression'),
-    getSection = require('./section');
+    getSection = require('./section'),
+    defaultOptions = {
+        parseBody: false, // Tells the router to parse the body by default
+        acceptedMethods: ['get', 'post', 'options', 'use'] // The methods that will be handled by the router
+    };
 
 // Handle errors for all routes
 let handleErrors = fn => async (req, res) => {
@@ -16,7 +20,7 @@ let handleErrors = fn => async (req, res) => {
 };
 
 // Main router
-let router = MicroExRouter();
+let router = MicroExRouter(defaultOptions);
 router
     // Add compression
     .use((req,res) => new Promise(next => compression()(req, res, next)))
@@ -31,8 +35,10 @@ router
 // For each section add its routes
 config.sections.map(item => {
     router
-        .get(`/${item.section}/:param`, getSection(item.section, {upDir: '..'}))
-        .get(`/${item.section}`, getSection(item.section))
+        // Uncomment the next lines to push state navigation
+        // .get(`/${item.section}/:param`, getSection(item.section, {upDir: '..'}))
+        // .get(`/${item.section}`, getSection(item.section))
+
         .get(`/hackernews/${item.section}/:param`, HNService.handler(item.section))
         .get(`/hackernews/${item.section}`, HNService.handler(item.section))
     ;

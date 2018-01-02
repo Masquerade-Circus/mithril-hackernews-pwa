@@ -86,25 +86,10 @@ self.addEventListener("fetch", event => {
                     return caches.match('/');
                 });
 
-            return cached || network;
+            return network || cached;
         })
     );
 });
-
-let createCacheBustedRequest = (url) => {
-    let request = new Request(url, {cache: 'reload'});
-    // See https://fetch.spec.whatwg.org/#concept-request-mode
-    // This is not yet supported in Chrome as of M48, so we need to explicitly check to see
-    // if the cache: 'reload' option had any effect.
-    if ('cache' in request) {
-        return request;
-    }
-
-    // If {cache: 'reload'} didn't have any effect, append a cache-busting URL parameter instead.
-    let bustedUrl = new URL(url, self.location.href);
-    bustedUrl.search += (bustedUrl.search ? '&' : '') + 'cachebust=' + Date.now();
-    return new Request(bustedUrl);
-};
 
 self.addEventListener("install", event => {
     event.waitUntil(

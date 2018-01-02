@@ -61,7 +61,16 @@ let getSection = (section, upDir = '.') => {
             options.list = html;
         }
 
-        return indexTemplate(Object.assign({}, indexDefaultOptions, options));
+        let template = indexTemplate(Object.assign({}, indexDefaultOptions, options));
+
+        res.writeHead(200, {
+            'Content-Type': config.mimeTypes.html,
+            'Content-Length': template.length,
+            'Cache-Control': 'public, max-age=2592000',
+            'Expires': new Date(Date.now() + 604800000).toUTCString()
+        });
+
+        res.end(template);
     }
 };
 

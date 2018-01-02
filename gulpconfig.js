@@ -42,10 +42,15 @@ let favicons = {
         appleIcon: true,            // Create Apple touch icons. `boolean` or `{ offset: offsetInPercentage }`
         appleStartup: true,         // Create Apple startup images. `boolean`
         coast: false,      // Create Opera Coast icon with offset 25%. `boolean` or `{ offset: offsetInPercentage }`
-        favicons: true,             // Create regular favicons. `boolean`
+        favicons: false,             // Create regular favicons. `boolean`
         firefox: true,              // Create Firefox OS icons. `boolean` or `{ offset: offsetInPercentage }`
-        windows: true,              // Create Windows 8 tile icons. `boolean`
+        windows: false,              // Create Windows 8 tile icons. `boolean`
         yandex: false                // Create Yandex browser icon. `boolean`
+    },
+    // Default favicon file
+    defaultFavicon: {
+        size: 60,
+        fileName: '/images/icons/firefox_app_60x60.png'
     }
 };
 

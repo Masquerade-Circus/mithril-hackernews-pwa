@@ -79,14 +79,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 var sections = [{ title: 'Top', section: 'top', paginated: true }, { title: 'New', section: 'new', paginated: true }, { title: 'Show', section: 'show', paginated: true }, { title: 'Ask', section: 'ask', paginated: true }, { title: 'Jobs', section: 'job', paginated: true }];
 
-var urlsToCache = ['/hackernews/top/1'
-// '/images/icons/favicon.ico',
-// '/images/icons/favicon-32x32.png',
-// '/images/icons/favicon-16x16.png'
-];
+var urlsToCache = ['/', '/hackernews/top/1'];
 
 var cacheName = 'hn-mithril';
 var cacheVersion = "v1::";
+var initialData = true;
 
 /**
  * Log function, you can set to console.log for debugging process
@@ -103,7 +100,8 @@ exports.default = {
     cacheName: cacheName,
     cacheVersion: cacheVersion,
     Log: Log,
-    hnOptions: hnOptions
+    hnOptions: hnOptions,
+    initialData: initialData
 };
 
 /***/ }),
@@ -213,24 +211,9 @@ self.addEventListener("fetch", function (event) {
             return caches.match('/');
         });
 
-        return cached || network;
+        return network || cached;
     }));
 });
-
-var createCacheBustedRequest = function createCacheBustedRequest(url) {
-    var request = new Request(url, { cache: 'reload' });
-    // See https://fetch.spec.whatwg.org/#concept-request-mode
-    // This is not yet supported in Chrome as of M48, so we need to explicitly check to see
-    // if the cache: 'reload' option had any effect.
-    if ('cache' in request) {
-        return request;
-    }
-
-    // If {cache: 'reload'} didn't have any effect, append a cache-busting URL parameter instead.
-    var bustedUrl = new URL(url, self.location.href);
-    bustedUrl.search += (bustedUrl.search ? '&' : '') + 'cachebust=' + Date.now();
-    return new Request(bustedUrl);
-};
 
 self.addEventListener("install", function (event) {
     event.waitUntil(
@@ -247,11 +230,11 @@ self.addEventListener("activate", function (event) {
     event.waitUntil(caches.keys().then(function (keys) {
         return Promise.all(keys.filter(function (key) {
             return !key.startsWith(_config2.default.cacheVersion);
-        } // Filter by keys that don't start with the latest version prefix.
-        ).map(function (key) {
+        }) // Filter by keys that don't start with the latest version prefix.
+        .map(function (key) {
             return caches.delete(key);
-        } // Return a promise that's fulfilled when each outdated cache is deleted.
-        ));
+        }) // Return a promise that's fulfilled when each outdated cache is deleted.
+        );
     }).then(function () {
         return self.clients.claim();
     }));

@@ -28,20 +28,8 @@ let api = {
                 kids[i] = kid;
                 i++;
                 m.redraw();
-                api.getKids(kids, i);
+                return api.getKids(kids, i);
             });
-    },
-    catchBaseUrl() {
-        let loc = window.location;
-        m.request({
-            method: "GET",
-            url:   `${loc.protocol}//${loc.hostname}${loc.port ? ':' + loc.port : ''}`,
-            headers: {
-                "Content-Type": "text/html",
-                "Accept": "text/html"
-            },
-            deserialize: value => value
-        });
     }
 };
 

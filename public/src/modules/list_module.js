@@ -13,7 +13,7 @@ let ListModule = {
     section: 'top',
     oninit(vnode) {
         this.section = vnode.attrs.section.toLowerCase();
-        if (!window.Ready) {
+        if (!window.Ready && config.initialData) {
             this.elements = initialData[this.section].items || [];
             this.pagination.total = initialData[this.section].total || 1;
         }
@@ -21,7 +21,7 @@ let ListModule = {
         this.pagination.current = parseInt(vnode.attrs.param) || 1;
         this.pagination.next = this.pagination.current + 1;
         this.pagination.prev = this.pagination.current - 1;
-        if (window.Ready) {
+        if (window.Ready || !config.initialData) {
             Api.fetch(this.section, this.pagination.current)
                 .then(response => {
                     this.elements = response.items;
