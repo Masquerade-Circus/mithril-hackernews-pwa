@@ -453,6 +453,8 @@ Object.defineProperty(exports, "__esModule", {
 
 var _mithrilMin = __webpack_require__(17);
 
+var _mithrilMin2 = _interopRequireDefault(_mithrilMin);
+
 var _timeago = __webpack_require__(20);
 
 var _timeago2 = _interopRequireDefault(_timeago);
@@ -463,7 +465,7 @@ var _config2 = _interopRequireDefault(_config);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-window.m = { route: _mithrilMin.route, request: _mithrilMin.request, redraw: _mithrilMin.redraw };
+window.m = _mithrilMin2.default;
 // m.route.prefix(''); // Uncoment this for push state navigation
 window.timeago = _timeago2.default;
 window.Log = _config2.default.Log;
